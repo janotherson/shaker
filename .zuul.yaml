@@ -9,12 +9,10 @@
       rtd_project_name: pyshaker
     check:
       jobs:
-        - openstack-tox-docs
         - shaker-integration-py27
         - shaker-integration-py36
     gate:
       jobs:
-        - openstack-tox-docs
         - shaker-integration-py27
         - shaker-integration-py36
         - shaker-docker-build
