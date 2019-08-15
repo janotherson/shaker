@@ -51,6 +51,16 @@ def get_stack_status(heat_client, stack_id):
     raise exc.HTTPNotFound(message='Stack %s is not found' % stack_id)
 
 
+def get_id_with_name(heat_client, stack_name):
+    # This method isn't really necessary since the Heat client accepts
+    # stack_id and stack_name interchangeably. This is provided more as a
+    # safety net to use ids which are guaranteed to be unique and provides
+    # the benefit of keeping the Shaker code consistent and more easily
+    # traceable.
+    stack = heat_client.stacks.get(stack_name)
+    return stack.id
+
+
 def wait_stack_completion(heat_client, stack_id):
     reason = None
     status = None

@@ -20,9 +20,11 @@ optional arguments:
                         over-ridden. The set is parsed after the file(s)
                         specified via previous --config-file, arguments hence
                         over-ridden options in the directory take precedence.
+                        This option must be set from the command-line.
   --config-file PATH    Path to a config file to use. Multiple config files
                         can be specified, with values in later files taking
-                        precedence. Defaults to None.
+                        precedence. Defaults to None. This option must be set
+                        from the command-line.
   --debug, -d           If set to true, the logging level will be set to DEBUG
                         instead of the default INFO level.
   --input INPUT         File or list of files to read test results from,
@@ -35,7 +37,7 @@ optional arguments:
                         logging configuration files are used then all logging
                         configuration is set in the configuration file and
                         other logging configuration options are ignored (for
-                        example, logging_context_format_string).
+                        example, log-date-format).
   --log-date-format DATE_FORMAT
                         Defines the format string for %(asctime)s in log
                         records. Default: None . This option is ignored if

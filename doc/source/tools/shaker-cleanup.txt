@@ -19,6 +19,8 @@ usage: shaker-cleanup [-h] [--cleanup] [--cleanup-on-error] [--config-dir DIR]
                       [--os-tenant-name <auth-tenant-name>]
                       [--os-user-domain-name <auth-user-domain-name>]
                       [--os-username <auth-username>]
+                      [--reuse-stack-name REUSE_STACK_NAME]
+                      [--stack-name STACK_NAME]
                       [--syslog-log-facility SYSLOG_LOG_FACILITY]
                       [--use-journal] [--use-json] [--use-syslog]
                       [--watch-log-file]
@@ -34,9 +36,11 @@ optional arguments:
                         over-ridden. The set is parsed after the file(s)
                         specified via previous --config-file, arguments hence
                         over-ridden options in the directory take precedence.
+                        This option must be set from the command-line.
   --config-file PATH    Path to a config file to use. Multiple config files
                         can be specified, with values in later files taking
-                        precedence. Defaults to None.
+                        precedence. Defaults to None. This option must be set
+                        from the command-line.
   --debug, -d           If set to true, the logging level will be set to DEBUG
                         instead of the default INFO level.
   --dns-nameservers DNS_NAMESERVERS
@@ -61,7 +65,7 @@ optional arguments:
                         logging configuration files are used then all logging
                         configuration is set in the configuration file and
                         other logging configuration options are ignored (for
-                        example, logging_context_format_string).
+                        example, log-date-format).
   --log-date-format DATE_FORMAT
                         Defines the format string for %(asctime)s in log
                         records. Default: None . This option is ignored if
@@ -120,6 +124,16 @@ optional arguments:
                         env[OS_USER_DOMAIN_NAME].
   --os-username <auth-username>
                         Authentication username, defaults to env[OS_USERNAME].
+  --reuse-stack-name REUSE_STACK_NAME
+                        Name of an existing Shaker heat stack to reuse. The
+                        default is to not reuse an existing stack. Caution
+                        should be taken to only reuse stacks meant for a
+                        specific scenario. Also certain configs e.g. image-
+                        name, flavor-name, stack-name, etc will be ignored
+                        when reusing an existing stack.
+  --stack-name STACK_NAME
+                        Name of test heat stack. The default is a uniquely
+                        generated name.
   --syslog-log-facility SYSLOG_LOG_FACILITY
                         Syslog facility to receive log lines. This option is
                         ignored if log_config_append is set.

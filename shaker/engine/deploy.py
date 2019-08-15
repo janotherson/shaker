@@ -263,7 +263,15 @@ class Deployment(object):
 
         self.flavor_name = flavor_name
         self.image_name = image_name
-        self.stack_name = 'shaker_%s' % utils.random_string()
+
+        if cfg.CONF.stack_name is not None:
+            self.stack_name = cfg.CONF.stack_name
+        else:
+            self.stack_name = 'shaker_%s' % utils.random_string()
+
+        if cfg.CONF.reuse_stack_name is not None:
+            self.stack_name = cfg.CONF.reuse_stack_name
+
         self.dns_nameservers = dns_nameservers
         # intiailizing self.external_net last so that other attributes don't
         # remain uninitialized in case user forgets to create external network
@@ -333,9 +341,13 @@ class Deployment(object):
         if support_templates is not None:
             self._deploy_support_stacks(support_templates, base_dir)
 
-        self.stack_id = heat.create_stack(
-            self.openstack_client.heat, self.stack_name, rendered_template,
-            merged_parameters, env_file)
+        if cfg.CONF.reuse_stack_name is None:
+            self.stack_id = heat.create_stack(
+                self.openstack_client.heat, self.stack_name, rendered_template,
+                merged_parameters, env_file)
+        else:
+            self.stack_id = heat.get_id_with_name(self.openstack_client.heat,
+                                                  self.stack_name)
 
         # get info about deployed objects
         outputs = heat.get_stack_outputs(self.openstack_client.heat,
