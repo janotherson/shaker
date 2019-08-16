@@ -22,12 +22,13 @@ usage: shaker [-h] [--agent-join-timeout AGENT_JOIN_TIMEOUT]
               [--os-user-domain-name <auth-user-domain-name>]
               [--os-username <auth-username>] [--output OUTPUT]
               [--polling-interval POLLING_INTERVAL] [--report REPORT]
-              [--report-template REPORT_TEMPLATE] [--scenario SCENARIO]
+              [--report-template REPORT_TEMPLATE]
+              [--reuse-stack-name REUSE_STACK_NAME] [--scenario SCENARIO]
               [--scenario-availability-zone SCENARIO_AVAILABILITY_ZONE]
               [--scenario-compute-nodes SCENARIO_COMPUTE_NODES]
-              [--server-endpoint SERVER_ENDPOINT] [--subunit SUBUNIT]
-              [--syslog-log-facility SYSLOG_LOG_FACILITY] [--use-journal]
-              [--use-json] [--use-syslog] [--watch-log-file]
+              [--server-endpoint SERVER_ENDPOINT] [--stack-name STACK_NAME]
+              [--subunit SUBUNIT] [--syslog-log-facility SYSLOG_LOG_FACILITY]
+              [--use-journal] [--use-json] [--use-syslog] [--watch-log-file]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -53,9 +54,11 @@ optional arguments:
                         over-ridden. The set is parsed after the file(s)
                         specified via previous --config-file, arguments hence
                         over-ridden options in the directory take precedence.
+                        This option must be set from the command-line.
   --config-file PATH    Path to a config file to use. Multiple config files
                         can be specified, with values in later files taking
-                        precedence. Defaults to None.
+                        precedence. Defaults to None. This option must be set
+                        from the command-line.
   --custom-user-opts CUSTOM_USER_OPTS
                         Set custom user option parameters for the scenario.
                         The value is specified in YAML, e.g. custom_user_opts
@@ -88,7 +91,7 @@ optional arguments:
                         logging configuration files are used then all logging
                         configuration is set in the configuration file and
                         other logging configuration options are ignored (for
-                        example, logging_context_format_string).
+                        example, log-date-format).
   --log-date-format DATE_FORMAT
                         Defines the format string for %(asctime)s in log
                         records. Default: None . This option is ignored if
@@ -165,10 +168,16 @@ optional arguments:
                         Template for report. Can be a file name or one of
                         aliases: "interactive", "json". Defaults to
                         "interactive".
+  --reuse-stack-name REUSE_STACK_NAME
+                        Name of an existing Shaker heat stack to reuse. The
+                        default is to not reuse an existing stack. Caution
+                        should be taken to only reuse stacks meant for a
+                        specific scenario. Also certain configs e.g. image-
+                        name, flavor-name, stack-name, etc will be ignored
+                        when reusing an existing stack.
   --scenario SCENARIO   Comma-separated list of scenarios to play. Each entity
                         can be a file name or one of aliases:
-                        "misc/instance_metadata", "misc/static_agent",
-                        "misc/static_agents_pair",
+                        "misc/instance_metadata",
                         "openstack/cross_az/full_l2",
                         "openstack/cross_az/full_l3_east_west",
                         "openstack/cross_az/full_l3_north_south",
@@ -208,6 +217,9 @@ optional arguments:
   --server-endpoint SERVER_ENDPOINT
                         Address for server connections (host:port), defaults
                         to env[SHAKER_SERVER_ENDPOINT].
+  --stack-name STACK_NAME
+                        Name of test heat stack. The default is a uniquely
+                        generated name.
   --subunit SUBUNIT     Subunit stream file name, defaults to
                         env[SHAKER_SUBUNIT].
   --syslog-log-facility SYSLOG_LOG_FACILITY

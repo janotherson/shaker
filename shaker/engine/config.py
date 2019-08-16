@@ -162,6 +162,18 @@ OPENSTACK_OPTS = [
                default=utils.env('SHAKER_FLAVOR') or 'shaker-flavor',
                help='Name of image flavor. The default is created by '
                     'shaker-image-builder.'),
+    cfg.StrOpt('stack-name',
+               default=utils.env('SHAKER_STACK_NAME') or None,
+               help='Name of test heat stack. The default is a uniquely '
+                    'generated name.'),
+    cfg.StrOpt('reuse-stack-name',
+               default=utils.env('SHAKER_REUSE_STACK_NAME') or None,
+               help='Name of an existing Shaker heat stack to reuse. The '
+                    'default is to not reuse an existing stack. Caution '
+                    'should be taken to only reuse stacks meant for a '
+                    'specific scenario. Also certain configs e.g. '
+                    'image-name, flavor-name, stack-name, etc will be '
+                    'ignored when reusing an existing stack.'),
     cfg.BoolOpt('cleanup-on-error',
                 default=(utils.env('SHAKER_CLEANUP_ON_ERROR') or True),
                 help='Clean up the heat-stack upon any error occurred during '
