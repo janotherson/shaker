@@ -108,7 +108,7 @@ def build_image_with_heat(openstack_client, image_name, flavor_name,
             LOG.error(error_msg)
             LOG.exception(e)
     finally:
-        if stack_id and cfg.CONF.cleanup_on_error:
+        if stack_id and cfg.CONF.cleanup_on_exit:
             LOG.debug('Cleaning up the stack: %s', stack_id)
             openstack_client.heat.stacks.delete(stack_id)
 

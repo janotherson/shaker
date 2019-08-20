@@ -454,7 +454,7 @@ class Deployment(object):
     def cleanup(self):
         # cleanup the test stack first since it could be referencing resources
         # in a support stack, and it was the last stack created.
-        if self.stack_id is not None and cfg.CONF.cleanup_on_error:
+        if self.stack_id is not None and cfg.CONF.cleanup_on_exit:
             LOG.debug('Cleaning up the test stack: %s with id: %s',
                       self.stack_name, self.stack_id)
             heat.wait_stack_deletion(self.openstack_client.heat, self.stack_id)
@@ -464,7 +464,7 @@ class Deployment(object):
         # Only stacks tracked during the run are deleted. e.g. if a support
         # stack already existed, the current run doesn't "own" it so it
         # won't be cleaned up.
-        if len(self.support_stacks) > 0 and cfg.CONF.cleanup_on_error:
+        if len(self.support_stacks) > 0 and cfg.CONF.cleanup_on_exit:
             for stack in reversed(self.support_stacks):
                 LOG.debug('Cleaning up the support stack: %s with id: %s',
                           stack.name, stack.id)

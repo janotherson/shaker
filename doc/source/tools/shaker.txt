@@ -1,14 +1,14 @@
 usage: shaker [-h] [--agent-join-timeout AGENT_JOIN_TIMEOUT]
               [--agent-loss-timeout AGENT_LOSS_TIMEOUT]
               [--artifacts-dir ARTIFACTS_DIR] [--book BOOK]
-              [--cleanup-on-error] [--config-dir DIR] [--config-file PATH]
+              [--cleanup-on-exit] [--config-dir DIR] [--config-file PATH]
               [--custom-user-opts CUSTOM_USER_OPTS] [--debug]
               [--dns-nameservers DNS_NAMESERVERS]
               [--external-net EXTERNAL_NET] [--flavor-name FLAVOR_NAME]
               [--image-name IMAGE_NAME] [--log-config-append PATH]
               [--log-date-format DATE_FORMAT] [--log-dir LOG_DIR]
               [--log-file PATH] [--matrix MATRIX] [--no-report-on-error]
-              [--nocleanup-on-error] [--nodebug] [--nono-report-on-error]
+              [--nocleanup-on-exit] [--nodebug] [--nono-report-on-error]
               [--noos-insecure] [--nouse-journal] [--nouse-json]
               [--nouse-syslog] [--nowatch-log-file] [--os-auth-url <auth-url>]
               [--os-cacert <auth-cacert>]
@@ -46,8 +46,7 @@ optional arguments:
                         to env[SHAKER_ARTIFACTS_DIR].
   --book BOOK           Generate report in ReST format and store it into the
                         specified folder, defaults to env[SHAKER_BOOK].
-  --cleanup-on-error    Clean up the heat-stack upon any error occurred during
-                        scenario execution.
+  --cleanup-on-exit     Clean up the heat-stack when exiting execution.
   --config-dir DIR      Path to a config directory to pull `*.conf` files
                         from. This file set is sorted, so as to provide a
                         predictable parse order if individual options are
@@ -112,7 +111,7 @@ optional arguments:
                         iperf.eenet.ee]}". When several parameters are
                         overridden all combinations are tested
   --no-report-on-error  Do not generate report for failed scenarios
-  --nocleanup-on-error  The inverse of --cleanup-on-error
+  --nocleanup-on-exit   The inverse of --cleanup-on-exit
   --nodebug             The inverse of --debug
   --nono-report-on-error
                         The inverse of --no-report-on-error

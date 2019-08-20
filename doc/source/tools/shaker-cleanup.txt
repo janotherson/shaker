@@ -1,11 +1,11 @@
-usage: shaker-cleanup [-h] [--cleanup] [--cleanup-on-error] [--config-dir DIR]
+usage: shaker-cleanup [-h] [--cleanup] [--cleanup-on-exit] [--config-dir DIR]
                       [--config-file PATH] [--debug]
                       [--dns-nameservers DNS_NAMESERVERS]
                       [--external-net EXTERNAL_NET]
                       [--flavor-name FLAVOR_NAME] [--image-name IMAGE_NAME]
                       [--log-config-append PATH]
                       [--log-date-format DATE_FORMAT] [--log-dir LOG_DIR]
-                      [--log-file PATH] [--nocleanup] [--nocleanup-on-error]
+                      [--log-file PATH] [--nocleanup] [--nocleanup-on-exit]
                       [--nodebug] [--noos-insecure] [--nouse-journal]
                       [--nouse-json] [--nouse-syslog] [--nowatch-log-file]
                       [--os-auth-url <auth-url>] [--os-cacert <auth-cacert>]
@@ -28,8 +28,7 @@ usage: shaker-cleanup [-h] [--cleanup] [--cleanup-on-error] [--config-dir DIR]
 optional arguments:
   -h, --help            show this help message and exit
   --cleanup             Cleanup the image and the flavor.
-  --cleanup-on-error    Clean up the heat-stack upon any error occurred during
-                        scenario execution.
+  --cleanup-on-exit     Clean up the heat-stack when exiting execution.
   --config-dir DIR      Path to a config directory to pull `*.conf` files
                         from. This file set is sorted, so as to provide a
                         predictable parse order if individual options are
@@ -80,7 +79,7 @@ optional arguments:
                         defined by use_stderr. This option is ignored if
                         log_config_append is set.
   --nocleanup           The inverse of --cleanup
-  --nocleanup-on-error  The inverse of --cleanup-on-error
+  --nocleanup-on-exit   The inverse of --cleanup-on-exit
   --nodebug             The inverse of --debug
   --noos-insecure       The inverse of --os-insecure
   --nouse-journal       The inverse of --use-journal

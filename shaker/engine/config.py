@@ -174,10 +174,9 @@ OPENSTACK_OPTS = [
                     'specific scenario. Also certain configs e.g. '
                     'image-name, flavor-name, stack-name, etc will be '
                     'ignored when reusing an existing stack.'),
-    cfg.BoolOpt('cleanup-on-error',
-                default=(utils.env('SHAKER_CLEANUP_ON_ERROR') or True),
-                help='Clean up the heat-stack upon any error occurred during '
-                     'scenario execution.'),
+    cfg.BoolOpt('cleanup-on-exit',
+                default=(utils.env('SHAKER_CLEANUP_ON_EXIT') or True),
+                help='Clean up the heat-stack when exiting execution.'),
 ]
 
 SERVER_AGENT_OPTS = [
