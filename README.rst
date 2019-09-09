@@ -64,6 +64,6 @@ Links
 -----
 * PyPi - https://pypi.org/project/pyshaker/
 * Docker - https://hub.docker.com/r/performa/shaker/
-* Docs - http://pyshaker.readthedocs.io/
-* Bugtracker - https://launchpad.net/shaker/
+* Docs - https://pyshaker.readthedocs.io/
+* Bugtracker - https://launchpad.net/shaker
 

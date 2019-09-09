@@ -75,5 +75,9 @@ Once those steps have been completed, changes to OpenStack should be submitted f
 
    https://docs.openstack.org/infra/manual/developers.html#development-workflow
 
-Pull requests submitted through GitHub will be ignored.
+Note that the primary repo is https://opendev.org/performa/shaker/
+Repos located at GitHub are mirrors and may be out of sync.
 
+Project bug tracker is Launchpad:
+
+   https://launchpad.net/shaker
