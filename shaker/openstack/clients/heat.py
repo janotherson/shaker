@@ -24,7 +24,8 @@ from timeout_decorator import TimeoutError
 LOG = logging.getLogger(__name__)
 
 
-def create_stack(heat_client, stack_name, template, parameters, environment):
+def create_stack(heat_client, stack_name, template, parameters,
+                 environment=None):
     stack_params = {
         'stack_name': stack_name,
         'template': template,
