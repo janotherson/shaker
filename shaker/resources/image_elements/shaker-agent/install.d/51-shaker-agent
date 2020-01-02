@@ -3,5 +3,5 @@
 set -eux
 set -o pipefail
 
-pip install pyshaker
+pip install pyshaker --ignore-installed
 
