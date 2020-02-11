@@ -84,9 +84,8 @@ def wait_stack_completion(heat_client, stack_id):
                           dict(res=res.logical_resource_id,
                                type=res.resource_type,
                                reason=res.resource_status_reason))
-        raise Exception('Failed to deploy Heat stack %(id)s. Expected status '
-                        'COMPLETE, but got %(status)s. Reason: %(reason)s' %
-                        dict(id=stack_id, status=status, reason=reason))
+
+        raise exc.StackFailure(stack_id, status, reason)
 
 
 # set the timeout for this method so we don't get stuck polling indefinitely

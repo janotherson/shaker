@@ -342,9 +342,13 @@ class Deployment(object):
             self._deploy_support_stacks(support_templates, base_dir)
 
         if cfg.CONF.reuse_stack_name is None:
-            self.stack_id = heat.create_stack(
-                self.openstack_client.heat, self.stack_name, rendered_template,
-                merged_parameters, env_file)
+            try:
+                self.stack_id = heat.create_stack(
+                    self.openstack_client.heat, self.stack_name,
+                    rendered_template, merged_parameters, env_file)
+            except heat.exc.StackFailure as err:
+                self.stack_id = err.args[0]
+                raise
         else:
             self.stack_id = heat.get_id_with_name(self.openstack_client.heat,
                                                   self.stack_name)
@@ -401,6 +405,10 @@ class Deployment(object):
                 # continue to show the exception in the logs
                 if sys.version_info < (3, 0):
                     sys.exc_clear()
+
+            except heat.exc.StackFailure as err:
+                self.stackid = err.args[0]
+                raise
 
     def _get_override(self, override_spec):
         def override_ip(agent, ip_type):
