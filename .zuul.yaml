@@ -16,6 +16,10 @@
         - shaker-integration-py27
         - shaker-integration-py36
         - shaker-docker-build
+    post:
+      jobs:
+        - shaker-upload-git-mirror
+
 
 - job:
     name: shaker-integration-py27
@@ -73,3 +77,93 @@
     secrets:
       - shaker_dockerhub_creds
 
+
+- secret:
+    name: shaker_git_mirror_credentials
+    data:
+      user: git
+      host: github.com
+      host_key: github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+      ssh_key: !encrypted/pkcs1-oaep
+        - 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
+
+
+- job:
+    name: shaker-upload-git-mirror
+    parent: upload-git-mirror
+    description: Mirrors OpenDev performa/shaker to Github permorma-labs/shaker
+    vars:
+      git_mirror_repository: performa-labs/shaker
+    secrets:
+      - name: git_mirror_credentials
+        secret: shaker_git_mirror_credentials
+        pass-to-parent: true
