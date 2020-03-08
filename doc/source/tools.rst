@@ -18,6 +18,9 @@ Executes specified scenario from the local node, stores results and generates HT
 .. literalinclude:: tools/shaker-spot.txt
 
 
+.. _shaker_image_builder:
+
+
 shaker-image-builder
 --------------------
 

@@ -6,28 +6,10 @@ Installation in Python environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Shaker is distributed as Python package and available through PyPi (https://pypi.org/project/pyshaker/).
-It is recommended to be installed inside virtualenv.
 
 .. code::
 
-    $ virtualenv venv
-    $ . venv/bin/activate
-    $ pip install pyshaker
-
-
-Installation on Ubuntu Cloud Image
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Installation on fresh system requires additional libraries needed by some of dependencies.
-
-.. code::
-
-    $ sudo apt-add-repository "deb http://nova.clouds.archive.ubuntu.com/ubuntu/ trusty multiverse"
-    $ sudo apt-get update
-    $ sudo apt-get install python-dev libzmq-dev
-    $ wget -O get-pip.py https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py
-    $ sudo pip install pbr pyshaker
-    $ shaker --help
+    $ pip install --user pyshaker
 
 
 OpenStack Deployment
@@ -44,22 +26,27 @@ For full features support it is advised to run Shaker by admin user. However
 with some limitations it works for non-admin user - see :ref:`non_admin_mode` for details.
 
 
-Build base image
-^^^^^^^^^^^^^^^^
+Base image
+^^^^^^^^^^
 
 Automatic build in OpenStack
 ----------------------------
 
-.. note::
-    This method requires Glance v.1 API; the base image is downloaded directly
-    from Internet into Glance.
-
-Build the master image. The process downloads Ubuntu cloud image, installs all necessary packages and stores
-snapshot into Glance. This snapshot is used by ``shaker`` as base of instances.
+The base image can be built using `shaker-image-builder` tool.
 
 .. code::
 
     $ shaker-image-builder
+
+There are 2 modes available:
+
+  * `heat` - using Heat template (requires Glance v1 for base image upload);
+  * `dib` - using diskimage-builder elements (requires qemu-utils and
+    debootstrap to build Ubuntu-based image).
+
+By default the mode is selected automatically preferring `heat` if Glance API v1
+is available. Created image is uploaded into Glance and made available for further executions
+of Shaker. For full list of parameters refer to :ref:`shaker_image_builder`.
 
 
 Manual build with disk-image-builder
@@ -69,7 +56,7 @@ Shaker image can also be built using `diskimage-builder`_ tool.
 
     #. Install disk-image-builder. Refer to `diskimage-builder installation`_
     #. Clone Shaker repo:
-       ``git clone https://git.openstack.org/openstack/shaker``
+       ``git clone https://opendev.org/performa/shaker``
     #. Add search path for diskimage-builder elements:
        ``export ELEMENTS_PATH=shaker/shaker/resources/image_elements``
     #. Build the image based on Ubuntu Xenial:

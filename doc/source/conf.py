@@ -1,5 +1,3 @@
-# Copyright (c) 2015 Mirantis Inc.
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -42,7 +40,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Shaker'
-copyright = u'2015, Mirantis'
+copyright = u'2015-2020 Shaker contributors'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

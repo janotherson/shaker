@@ -75,7 +75,7 @@ def make(src, dest):
             print_info(out, info, prefix='scenario')
             print('To use this scenario specify parameter ``--scenario %s``.\n'
                   'Scenario source is available at: '
-                  'https://github.com/openstack/shaker/blob/master/%s' %
+                  'https://opendev.org/performa/shaker/src/branch/master/%s' %
                   (info['scenario_id'], info['path']), file=out)
             print('', file=out)
 
@@ -86,7 +86,7 @@ def make(src, dest):
         for info in templates:
             print_info(out, info, prefix='template')
             print('Template source is available at: '
-                  'https://github.com/openstack/shaker/blob/master/%s' %
+                  'https://opendev.org/performa/shaker/src/branch/master/%s' %
                   info['path'], file=out)
             print('', file=out)
 
