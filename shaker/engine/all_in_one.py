@@ -61,5 +61,6 @@ def main():
     LOG.info('Cleaning up')
     image_builder.cleanup()
 
+
 if __name__ == "__main__":
     main()

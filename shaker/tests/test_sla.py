@@ -28,10 +28,10 @@ class TestSla(testtools.TestCase):
         self.assertFalse(sla.eval_expr('(not 11 > 7) or (not 5 < 6)'))
 
     def test_eval_regex(self):
-        self.assertTrue(sla.eval_expr('"some text" & "\w+\s+\w+"'))
-        self.assertFalse(sla.eval_expr('"some text" & "\d+"'))
+        self.assertTrue(sla.eval_expr(r'"some text" & "\w+\s+\w+"'))
+        self.assertFalse(sla.eval_expr(r'"some text" & "\d+"'))
 
-        self.assertFalse(sla.eval_expr('a & "\d+"', {'a': ''}))
+        self.assertFalse(sla.eval_expr(r'a & "\d+"', {'a': ''}))
 
     def test_eval_non_existent_ref(self):
         self.assertRaises(sla.SLAException, sla.eval_expr,

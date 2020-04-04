@@ -37,7 +37,7 @@ class Endpoint(types.String):
 
     def __call__(self, value):
         value = str(value)
-        if not re.match('\S+:\d+', value):
+        if not re.match(r'\S+:\d+', value):
             raise ValueError('Wrong value of server_endpoint, '
                              'expected <host>:<port>, but got: %s' % value)
         return value

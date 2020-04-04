@@ -169,5 +169,6 @@ def main():
 
     work(agent_id, endpoint, polling_interval)
 
+
 if __name__ == "__main__":
     main()
