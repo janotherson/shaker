@@ -63,8 +63,8 @@ def init_config_and_logging(opts, **conf_overrides):
         conf.set_override(k, v)
 
     # requests to OpenStack services should be visible at DEBUG level
-    default_log_levels = [l for l in conf.default_log_levels
-                          if not l.startswith('keystoneauth')]
+    default_log_levels = [lvl for lvl in conf.default_log_levels
+                          if not lvl.startswith('keystoneauth')]
     default_log_levels += ['pykwalify=INFO']
     logging.set_defaults(default_log_levels=default_log_levels)
 
