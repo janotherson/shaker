@@ -89,9 +89,13 @@ def sleep(seconds):
     time.sleep(seconds)
 
 
-def get_socket(endpoint):
-    context = zmq.Context()
+def get_socket(context, endpoint):
     socket = context.socket(zmq.REQ)
+    socket.setsockopt(zmq.LINGER, 0)
+    if 'agent_socket_recv_timeout' in cfg.CONF:
+        socket.setsockopt(zmq.RCVTIMEO, cfg.CONF.agent_socket_recv_timeout)
+    if 'agent_socket_send_timeout' in cfg.CONF:
+        socket.setsockopt(zmq.SNDTIMEO, cfg.CONF.agent_socket_send_timeout)
     socket.connect('tcp://%s' % endpoint)
     return socket
 
@@ -133,11 +137,19 @@ def work(agent_id, endpoint, polling_interval=config.DEFAULT_POLLING_INTERVAL,
     agent_config = dict(polling_interval=polling_interval)
     LOG.info('Agent config: %s', agent_config)
 
-    socket = get_socket(endpoint)
+    if 'agent_socket_conn_retries' in cfg.CONF:
+        socket_conn_retries = cfg.CONF.agent_socket_conn_retries
+    else:
+        socket_conn_retries = config.DEFAULT_SOCKET_CONN_RETRIES
+
+    context = zmq.Context()
+    socket = get_socket(context, endpoint)
+    socket_retries_left = socket_conn_retries
 
     while True:
         try:
             work_act(socket, agent_id, agent_config)
+            socket_retries_left = socket_conn_retries
 
         except BaseException as e:
             if isinstance(e, KeyboardInterrupt):
@@ -146,9 +158,20 @@ def work(agent_id, endpoint, polling_interval=config.DEFAULT_POLLING_INTERVAL,
                 else:
                     LOG.info('Process is interrupted')
                     sys.exit(3)
+            elif isinstance(e, zmq.error.ZMQError):
+                socket.close()
+                socket_retries_left -= 1
+                if socket_retries_left <= 0:
+                    LOG.exception(e)
+                    break
+                LOG.warning('Socket reconnecting...')
+                socket = get_socket(context, endpoint)
             else:
                 LOG.exception(e)
                 break
+
+    socket.close()
+    context.term()
 
 
 def get_node_uuid():

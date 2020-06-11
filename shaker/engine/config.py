@@ -31,6 +31,7 @@ REPORT_TEMPLATES = 'shaker/resources/report_templates/'
 SCENARIOS = 'shaker/scenarios/'
 SCHEMAS = 'shaker/resources/schemas/'
 DEFAULT_POLLING_INTERVAL = 10
+DEFAULT_SOCKET_CONN_RETRIES = 10
 
 
 class Endpoint(types.String):
@@ -75,7 +76,7 @@ COMMON_OPTS = [
     cfg.IntOpt('polling-interval',
                default=(utils.env('SHAKER_POLLING_INTERVAL') or
                         DEFAULT_POLLING_INTERVAL),
-               help='How frequently the agent polls server, in seconds')
+               help='How frequently the agent polls server, in seconds'),
 ]
 
 OPENSTACK_OPTS = [
@@ -285,6 +286,20 @@ AGENT_OPTS = [
     cfg.StrOpt('agent-id',
                default=utils.env('SHAKER_AGENT_ID'),
                help='Agent unique id, defaults to MAC of primary interface.'),
+    cfg.IntOpt('agent-socket-recv-timeout',
+               default=utils.env('SHAKER_AGENT_SOCKET_RECV_TIMEOUT'),
+               help='The amount of time the socket will wait for '
+                    'a response from a sent message, in milliseconds.'),
+    cfg.IntOpt('agent-socket-send-timeout',
+               default=utils.env('SHAKER_AGENT_SOCKET_SEND_TIMEOUT'),
+               help='The amount of time the socket will wait until '
+                    'a sent message is accepted, in milliseconds.'),
+    cfg.IntOpt('agent-socket-conn-retries',
+               default=(utils.env('SHAKER_AGENT_SOCKET_CONN_RETRIES') or
+                        DEFAULT_SOCKET_CONN_RETRIES),
+               help='Prior to exiting, the number of reconnects the Agent '
+                    'will attempt with the server upon socket operation '
+                    'errors.'),
 ]
 
 IMAGE_BUILDER_OPTS = [
