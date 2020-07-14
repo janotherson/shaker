@@ -26,7 +26,7 @@ LOG = logging.getLogger(__name__)
 
 def add_common_iperf_params(cmd, executor):
     cmd.add('--client', executor.test_definition.get('host') or
-            executor.agent['slave']['ip'])
+            executor.agent['minion']['ip'])
     cmd.add('--format', 'm')
     if executor.test_definition.get('mss'):
         cmd.add('--mss', executor.test_definition.get('mss'))

@@ -3,7 +3,7 @@ title: OpenStack L2 Cross-AZ
 description:
   In this scenario Shaker launches pairs of instances in the same tenant
   network. Every instance is hosted on a separate compute node, all available
-  compute nodes are utilized. The master and slave instances are in different
+  compute nodes are utilized. The primary and minion instances are in different
   availability zones. The scenario is used to test throughput between `nova`
   and `vcenter` zones. The traffic goes within the tenant network (L2 domain).
 

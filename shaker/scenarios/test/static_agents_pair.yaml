@@ -9,13 +9,13 @@ deployment:
   -
     id: a-001
     ip: 10.20.1.2
-    mode: master
-    slave_id: a-002
+    mode: primary
+    minion_id: a-002
   -
     id: a-002
     ip: 10.20.1.8
-    mode: slave
-    master_id: a-001
+    mode: minion
+    primary_id: a-001
 
 execution:
   tests:

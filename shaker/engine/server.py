@@ -39,10 +39,11 @@ def _extend_agents(agents_map):
     extended_agents = {}
     for agent in agents_map.values():
         extended = copy.deepcopy(agent)
-        if agent.get('slave_id'):
-            extended['slave'] = copy.deepcopy(agents_map[agent['slave_id']])
-        if agent.get('master_id'):
-            extended['master'] = copy.deepcopy(agents_map[agent['master_id']])
+        if agent.get('minion_id'):
+            extended['minion'] = copy.deepcopy(agents_map[agent['minion_id']])
+        if agent.get('primary_id'):
+            extended['primary'] = copy.deepcopy(
+                agents_map[agent['primary_id']])
         extended_agents[agent['id']] = extended
     return extended_agents
 
@@ -51,13 +52,13 @@ def _make_test_title(test, params=None):
     s = test.get('title') or test.get('class')
     if params:
         s += ' '.join([','.join(['%s=%s' % (k, v) for k, v in params.items()
-                                if k != 'host'])])
+                                 if k != 'host'])])
     return re.sub(r'[^\x20-\x7e\x80-\xff]+', '_', s)
 
 
 def _pick_agents(agents, progression):
-    # slave agents do not execute any tests
-    agents = [a for a in agents.values() if a.get('mode') != 'slave']
+    # minion agents do not execute any tests
+    agents = [a for a in agents.values() if a.get('mode') != 'minion']
 
     if not progression:
         yield agents

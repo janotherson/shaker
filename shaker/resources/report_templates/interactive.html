@@ -303,14 +303,14 @@
         var agents = getAgentsByIds(agent_ids);
         if (agents.length == 0) return;
 
-        // add slave agents
-        var slave_agent_ids = {};
+        // add minion agents
+        var minion_agent_ids = {};
         $.each(agents, function(_i, agent){
-          if (agent.slave_id) {
-            slave_agent_ids[agent.slave_id] = true;
+          if (agent.minion_id) {
+            minion_agent_ids[agent.minion_id] = true;
           }
         });
-        agents = $.merge(agents, getAgentsByIds(slave_agent_ids));
+        agents = $.merge(agents, getAgentsByIds(minion_agent_ids));
 
         contentArea.append(agents_table_template({
           agents: agents,

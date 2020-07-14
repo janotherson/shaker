@@ -93,17 +93,17 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_pair_single_room(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'node': 'uno',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:dos' % ZONE,
                 'zone': ZONE,
                 'node': 'dos'},
@@ -117,17 +117,17 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_pair_single_room_az_host(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'node': 'uno',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:dos' % ZONE,
                 'zone': ZONE,
                 'node': 'dos'},
@@ -149,17 +149,17 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_pair_single_room_best_effort(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'node': 'uno',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:uno' % ZONE,
                 'zone': ZONE,
                 'node': 'uno'},
@@ -174,17 +174,17 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_pair_single_room_best_effort_three_nodes(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'node': 'uno',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:dos' % ZONE,
                 'zone': ZONE,
                 'node': 'dos'},
@@ -206,17 +206,17 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_pair_single_room_compute_nodes_best_effort(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'node': 'uno',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:uno' % ZONE,
                 'zone': ZONE,
                 'node': 'uno'},
@@ -231,45 +231,45 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_pair_double_room(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'node': 'uno',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:uno' % ZONE,
                 'zone': ZONE,
                 'node': 'uno'},
-            'UU1D_master_1': {
-                'id': 'UU1D_master_1',
-                'mode': 'master',
+            'UU1D_primary_1': {
+                'id': 'UU1D_primary_1',
+                'mode': 'primary',
                 'availability_zone': '%s:dos' % ZONE,
                 'node': 'dos',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_1'},
-            'UU1D_slave_1': {
-                'id': 'UU1D_slave_1',
-                'master_id': 'UU1D_master_1',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_1'},
+            'UU1D_minion_1': {
+                'id': 'UU1D_minion_1',
+                'primary_id': 'UU1D_primary_1',
+                'mode': 'minion',
                 'availability_zone': '%s:dos' % ZONE,
                 'zone': ZONE,
                 'node': 'dos'},
-            'UU1D_master_2': {
-                'id': 'UU1D_master_2',
-                'mode': 'master',
+            'UU1D_primary_2': {
+                'id': 'UU1D_primary_2',
+                'mode': 'primary',
                 'availability_zone': '%s:tre' % ZONE,
                 'node': 'tre',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_2'},
-            'UU1D_slave_2': {
-                'id': 'UU1D_slave_2',
-                'master_id': 'UU1D_master_2',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_2'},
+            'UU1D_minion_2': {
+                'id': 'UU1D_minion_2',
+                'primary_id': 'UU1D_primary_2',
+                'mode': 'minion',
                 'availability_zone': '%s:tre' % ZONE,
                 'zone': ZONE,
                 'node': 'tre'},
@@ -283,31 +283,31 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_pair_double_room_az_host(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'node': 'uno',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:uno' % ZONE,
                 'zone': ZONE,
                 'node': 'uno'},
-            'UU1D_master_1': {
-                'id': 'UU1D_master_1',
-                'mode': 'master',
+            'UU1D_primary_1': {
+                'id': 'UU1D_primary_1',
+                'mode': 'primary',
                 'availability_zone': '%s:dos' % ZONE,
                 'node': 'dos',
                 'zone': ZONE,
-                'slave_id': 'UU1D_slave_1'},
-            'UU1D_slave_1': {
-                'id': 'UU1D_slave_1',
-                'master_id': 'UU1D_master_1',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_1'},
+            'UU1D_minion_1': {
+                'id': 'UU1D_minion_1',
+                'primary_id': 'UU1D_primary_1',
+                'mode': 'minion',
                 'availability_zone': '%s:dos' % ZONE,
                 'zone': ZONE,
                 'node': 'dos'},
@@ -323,31 +323,31 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_pair_mixed_room(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'zone': ZONE,
                 'node': 'uno',
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:dos' % ZONE,
                 'zone': ZONE,
                 'node': 'dos'},
-            'UU1D_master_1': {
-                'id': 'UU1D_master_1',
-                'mode': 'master',
+            'UU1D_primary_1': {
+                'id': 'UU1D_primary_1',
+                'mode': 'primary',
                 'availability_zone': '%s:dos' % ZONE,
                 'zone': ZONE,
                 'node': 'dos',
-                'slave_id': 'UU1D_slave_1'},
-            'UU1D_slave_1': {
-                'id': 'UU1D_slave_1',
-                'master_id': 'UU1D_master_1',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_1'},
+            'UU1D_minion_1': {
+                'id': 'UU1D_minion_1',
+                'primary_id': 'UU1D_primary_1',
+                'mode': 'minion',
                 'availability_zone': '%s:uno' % ZONE,
                 'zone': ZONE,
                 'node': 'uno'},
@@ -483,17 +483,17 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_zones_specified(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'slave_id': 'UU1D_slave_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'minion_id': 'UU1D_minion_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'zone': ZONE,
                 'node': 'uno'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:tre' % ZONE,
                 'zone': ZONE,
                 'node': 'tre'},
@@ -515,17 +515,17 @@ class TestDeploy(testtools.TestCase):
         mr.side_effect = lambda x, n: x[:n]
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'slave_id': 'UU1D_slave_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'minion_id': 'UU1D_minion_0',
+                'mode': 'primary',
                 'availability_zone': '%s:uno' % ZONE,
                 'zone': ZONE,
                 'node': 'uno'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': '%s:tre' % ZONE,
                 'zone': ZONE,
                 'node': 'tre'},
@@ -547,31 +547,31 @@ class TestDeploy(testtools.TestCase):
     def test_generate_agents_cross_zones(self):
         unique = 'UU1D'
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'slave_id': 'UU1D_slave_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'minion_id': 'UU1D_minion_0',
+                'mode': 'primary',
                 'availability_zone': 'nova:uno',
                 'zone': 'nova',
                 'node': 'uno'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'availability_zone': 'vcenter:tre',
                 'zone': 'vcenter',
                 'node': 'tre'},
-            'UU1D_master_1': {
-                'id': 'UU1D_master_1',
-                'slave_id': 'UU1D_slave_1',
-                'mode': 'master',
+            'UU1D_primary_1': {
+                'id': 'UU1D_primary_1',
+                'minion_id': 'UU1D_minion_1',
+                'mode': 'primary',
                 'availability_zone': 'nova:duo',
                 'zone': 'nova',
                 'node': 'duo'},
-            'UU1D_slave_1': {
-                'id': 'UU1D_slave_1',
-                'master_id': 'UU1D_master_1',
-                'mode': 'slave',
+            'UU1D_minion_1': {
+                'id': 'UU1D_minion_1',
+                'primary_id': 'UU1D_primary_1',
+                'mode': 'minion',
                 'availability_zone': 'vcenter:cinco',
                 'zone': 'vcenter',
                 'node': 'cinco'},
@@ -630,87 +630,87 @@ class TestDeploy(testtools.TestCase):
 
     def test_filter_agents_pair_single_room(self):
         agents = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'node': 'uno',
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'node': 'dos'},
         }
         stack_outputs = {
-            'UU1D_master_0_ip': '10.0.0.1',
-            'UU1D_master_0_instance_name': 'i-000001',
-            'UU1D_slave_0_ip': '10.0.0.2',
-            'UU1D_slave_0_instance_name': 'i-000002',
+            'UU1D_primary_0_ip': '10.0.0.1',
+            'UU1D_primary_0_instance_name': 'i-000001',
+            'UU1D_minion_0_ip': '10.0.0.2',
+            'UU1D_minion_0_instance_name': 'i-000002',
         }
-        expected = {'UU1D_master_0': agents['UU1D_master_0'],
-                    'UU1D_slave_0': agents['UU1D_slave_0']}
+        expected = {'UU1D_primary_0': agents['UU1D_primary_0'],
+                    'UU1D_minion_0': agents['UU1D_minion_0']}
 
         filtered = deploy.filter_agents(agents, stack_outputs)
         self.assertEqual(expected, filtered)
 
     def test_filter_agents_pair_double_room_partially_deployed(self):
         agents = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'node': 'uno',
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'node': 'uno'},
-            'UU1D_master_1': {
-                'id': 'UU1D_master_1',
-                'mode': 'master',
+            'UU1D_primary_1': {
+                'id': 'UU1D_primary_1',
+                'mode': 'primary',
                 'node': 'dos',
-                'slave_id': 'UU1D_slave_1'},
-            'UU1D_slave_1': {
-                'id': 'UU1D_slave_1',
-                'master_id': 'UU1D_master_1',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_1'},
+            'UU1D_minion_1': {
+                'id': 'UU1D_minion_1',
+                'primary_id': 'UU1D_primary_1',
+                'mode': 'minion',
                 'node': 'dos'},
         }
         stack_outputs = {
-            'UU1D_master_0_ip': '10.0.0.1',
-            'UU1D_master_0_instance_name': 'i-000001',
-            'UU1D_slave_0_ip': '10.0.0.2',
-            'UU1D_slave_0_instance_name': 'i-000002',
-            'UU1D_master_1_ip': '10.0.0.3',
-            'UU1D_master_1_instance_name': 'i-000003',
-            'UU1D_slave_1_instance_name': 'i-000004',
+            'UU1D_primary_0_ip': '10.0.0.1',
+            'UU1D_primary_0_instance_name': 'i-000001',
+            'UU1D_minion_0_ip': '10.0.0.2',
+            'UU1D_minion_0_instance_name': 'i-000002',
+            'UU1D_primary_1_ip': '10.0.0.3',
+            'UU1D_primary_1_instance_name': 'i-000003',
+            'UU1D_minion_1_instance_name': 'i-000004',
         }
-        expected = {'UU1D_master_0': agents['UU1D_master_0'],
-                    'UU1D_slave_0': agents['UU1D_slave_0'], }
+        expected = {'UU1D_primary_0': agents['UU1D_primary_0'],
+                    'UU1D_minion_0': agents['UU1D_minion_0'], }
 
         filtered = deploy.filter_agents(agents, stack_outputs)
         self.assertEqual(expected, filtered)
 
     def test_filter_agents_pair_single_room_with_overrides(self):
         agents = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'node': 'uno',
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'node': 'dos'},
         }
         ips = {
-            'UU1D_master_0': '10.0.0.2',
-            'UU1D_slave_0': '10.0.0.4',
+            'UU1D_primary_0': '10.0.0.2',
+            'UU1D_minion_0': '10.0.0.4',
         }
         stack_outputs = {}
-        expected = {'UU1D_master_0': agents['UU1D_master_0'],
-                    'UU1D_slave_0': agents['UU1D_slave_0']}
+        expected = {'UU1D_primary_0': agents['UU1D_primary_0'],
+                    'UU1D_minion_0': agents['UU1D_minion_0']}
 
         def override(agent):
             return dict(ip=ips[agent['id']])
@@ -718,7 +718,8 @@ class TestDeploy(testtools.TestCase):
         filtered = deploy.filter_agents(agents, stack_outputs,
                                         override=override)
         self.assertEqual(expected, filtered)
-        self.assertEqual(filtered['UU1D_master_0']['ip'], ips['UU1D_master_0'])
+        self.assertEqual(filtered['UU1D_primary_0']
+                         ['ip'], ips['UU1D_primary_0'])
 
     def test_prepare_for_cross_az(self):
         source = [
@@ -797,28 +798,30 @@ class TestDeploy(testtools.TestCase):
         create_stack_mock.return_value = uuid.uuid4()
 
         heat_outputs = {
-            stack_name + '_master_0_instance_name': 'instance-0000052f',
-            stack_name + '_master_0_ip': '192.0.0.3',
-            stack_name + '_slave_0_ip': '192.0.0.4',
-            stack_name + '_slave_0_instance_name': 'instance-0000052c'}
+            stack_name + '_primary_0_instance_name': 'instance-0000052f',
+            stack_name + '_primary_0_ip': '192.0.0.3',
+            stack_name + '_minion_0_ip': '192.0.0.4',
+            stack_name + '_minion_0_instance_name': 'instance-0000052c'}
 
         stack_output_mock.return_value = heat_outputs
 
         expected = {
-            'shaker_abcdefg_master_0': {'availability_zone': 'nova:host-1',
-                                        'id': 'shaker_abcdefg_master_0',
-                                        'ip': cidr + '.3',
-                                        'mode': 'master',
+            'shaker_abcdefg_primary_0': {'availability_zone': 'nova:host-1',
+                                         'id': 'shaker_abcdefg_primary_0',
+                                         'ip': cidr + '.3',
+                                         'mode': 'primary',
+                                         'node': 'host-1',
+                                         'minion_id':
+                                         'shaker_abcdefg_minion_0',
+                                         'zone': 'nova'},
+            'shaker_abcdefg_minion_0': {'availability_zone': 'nova:host-1',
+                                        'id': 'shaker_abcdefg_minion_0',
+                                        'ip': cidr + '.4',
+                                        'primary_id':
+                                        'shaker_abcdefg_primary_0',
+                                        'mode': 'minion',
                                         'node': 'host-1',
-                                        'slave_id': 'shaker_abcdefg_slave_0',
-                                        'zone': 'nova'},
-            'shaker_abcdefg_slave_0': {'availability_zone': 'nova:host-1',
-                                       'id': 'shaker_abcdefg_slave_0',
-                                       'ip': cidr + '.4',
-                                       'master_id': 'shaker_abcdefg_master_0',
-                                       'mode': 'slave',
-                                       'node': 'host-1',
-                                       'zone': 'nova'}}
+                                        'zone': 'nova'}}
 
         agents = deployment._deploy_from_hot(scenario['deployment'],
                                              server_endpoint,
@@ -856,28 +859,30 @@ class TestDeploy(testtools.TestCase):
         create_stack_mock.return_value = uuid.uuid4()
 
         heat_outputs = {
-            stack_name + '_master_0_instance_name': 'instance-0000052f',
-            stack_name + '_master_0_ip': '10.0.0.3',
-            stack_name + '_slave_0_ip': '10.0.0.4',
-            stack_name + '_slave_0_instance_name': 'instance-0000052c'}
+            stack_name + '_primary_0_instance_name': 'instance-0000052f',
+            stack_name + '_primary_0_ip': '10.0.0.3',
+            stack_name + '_minion_0_ip': '10.0.0.4',
+            stack_name + '_minion_0_instance_name': 'instance-0000052c'}
 
         stack_output_mock.return_value = heat_outputs
 
         expected = {
-            'shaker_abcdefg_master_0': {'availability_zone': 'nova:host-1',
-                                        'id': 'shaker_abcdefg_master_0',
-                                        'ip': '10.0.0.3',
-                                        'mode': 'master',
+            'shaker_abcdefg_primary_0': {'availability_zone': 'nova:host-1',
+                                         'id': 'shaker_abcdefg_primary_0',
+                                         'ip': '10.0.0.3',
+                                         'mode': 'primary',
+                                         'node': 'host-1',
+                                         'minion_id':
+                                         'shaker_abcdefg_minion_0',
+                                         'zone': 'nova'},
+            'shaker_abcdefg_minion_0': {'availability_zone': 'nova:host-1',
+                                        'id': 'shaker_abcdefg_minion_0',
+                                        'ip': '10.0.0.4',
+                                        'primary_id':
+                                        'shaker_abcdefg_primary_0',
+                                        'mode': 'minion',
                                         'node': 'host-1',
-                                        'slave_id': 'shaker_abcdefg_slave_0',
-                                        'zone': 'nova'},
-            'shaker_abcdefg_slave_0': {'availability_zone': 'nova:host-1',
-                                       'id': 'shaker_abcdefg_slave_0',
-                                       'ip': '10.0.0.4',
-                                       'master_id': 'shaker_abcdefg_master_0',
-                                       'mode': 'slave',
-                                       'node': 'host-1',
-                                       'zone': 'nova'}}
+                                        'zone': 'nova'}}
 
         agents = deployment._deploy_from_hot(scenario['deployment'],
                                              server_endpoint,
@@ -1174,32 +1179,32 @@ class TestDeploy(testtools.TestCase):
 
     def test_distribute_agents(self):
         agents = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'ip': '10.0.0.3',
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
                 'ip': '10.0.0.4',
-                'mode': 'slave'},
-            'UU1D_master_1': {
-                'id': 'UU1D_master_1',
-                'mode': 'master',
+                'mode': 'minion'},
+            'UU1D_primary_1': {
+                'id': 'UU1D_primary_1',
+                'mode': 'primary',
                 'ip': '10.0.0.5',
-                'slave_id': 'UU1D_slave_1'},
-            'UU1D_slave_1': {
-                'id': 'UU1D_slave_1',
-                'master_id': 'UU1D_master_1',
+                'minion_id': 'UU1D_minion_1'},
+            'UU1D_minion_1': {
+                'id': 'UU1D_minion_1',
+                'primary_id': 'UU1D_primary_1',
                 'ip': '10.0.0.6',
-                'mode': 'slave'},
+                'mode': 'minion'},
         }
         hosts = {
-            'UU1D_master_0': '001',
-            'UU1D_slave_0': '002',
-            'UU1D_master_1': '003',
-            'UU1D_slave_1': '004',
+            'UU1D_primary_0': '001',
+            'UU1D_minion_0': '002',
+            'UU1D_primary_1': '003',
+            'UU1D_minion_1': '004',
         }
 
         expected = copy.deepcopy(agents)
@@ -1214,47 +1219,47 @@ class TestDeploy(testtools.TestCase):
     # todo refactor code to use lists instead of dicts
     def _test_distribute_agents_collision(self):
         agents = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'ip': '10.0.0.3',
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
                 'ip': '10.0.0.4',
-                'mode': 'slave'},
-            'UU1D_master_1': {
-                'id': 'UU1D_master_1',
-                'mode': 'master',
+                'mode': 'minion'},
+            'UU1D_primary_1': {
+                'id': 'UU1D_primary_1',
+                'mode': 'primary',
                 'ip': '10.0.0.5',
-                'slave_id': 'UU1D_slave_1'},
-            'UU1D_slave_1': {
-                'id': 'UU1D_slave_1',
-                'master_id': 'UU1D_master_1',
+                'minion_id': 'UU1D_minion_1'},
+            'UU1D_minion_1': {
+                'id': 'UU1D_minion_1',
+                'primary_id': 'UU1D_primary_1',
                 'ip': '10.0.0.6',
-                'mode': 'slave'},
+                'mode': 'minion'},
         }
         hosts = {
-            'UU1D_master_0': '001',
-            'UU1D_slave_0': '001',  # collides with master_0
-            'UU1D_master_1': '003',
-            'UU1D_slave_1': '004',
+            'UU1D_primary_0': '001',
+            'UU1D_minion_0': '001',  # collides with primary_0
+            'UU1D_primary_1': '003',
+            'UU1D_minion_1': '004',
         }
 
         expected = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'ip': '10.0.0.3',
                 'node': '001',
-                'slave_id': 'UU1D_slave_1'},
-            'UU1D_slave_1': {
-                'id': 'UU1D_slave_1',
-                'master_id': 'UU1D_master_0',
+                'minion_id': 'UU1D_minion_1'},
+            'UU1D_minion_1': {
+                'id': 'UU1D_minion_1',
+                'primary_id': 'UU1D_primary_0',
                 'ip': '10.0.0.6',
                 'node': '004',
-                'mode': 'slave'},
+                'mode': 'minion'},
         }
 
         observed = deploy.distribute_agents(agents, lambda x: hosts[x])

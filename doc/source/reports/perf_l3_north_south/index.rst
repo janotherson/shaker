@@ -4,7 +4,7 @@ OpenStack L3 North-South Performance
 ************************************
 
 This scenario launches 1 pair of VMs on different compute nodes. VMs are in the
-different networks connected via different routers, master accesses slave by
+different networks connected via different routers, primary accesses minion by
 floating ip
 
 **Scenario**:
@@ -18,7 +18,7 @@ floating ip
       - compute_nodes: 2
       template: l3_north_south.hot
     description: This scenario launches 1 pair of VMs on different compute nodes. VMs
-      are in the different networks connected via different routers, master accesses slave
+      are in the different networks connected via different routers, primary accesses minion
       by floating ip
     execution:
       tests:

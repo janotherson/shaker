@@ -24,7 +24,7 @@ Executes specified scenario from the local node, stores results and generates HT
 shaker-image-builder
 --------------------
 
-Builds master image in OpenStack cloud. The image is based on Ubuntu cloud image distro and
+Builds base image in OpenStack cloud. The image is based on Ubuntu cloud image distro and
 configured to run ``shaker-agent``.
 
 .. literalinclude:: tools/shaker-image-builder.txt
@@ -46,6 +46,6 @@ Generates report based on raw results stored in JSON format.
 shaker-cleanup
 --------------
 
-Removes master image from OpenStack cloud.
+Removes base image from OpenStack cloud.
 
 .. literalinclude:: tools/shaker-cleanup.txt

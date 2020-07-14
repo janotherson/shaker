@@ -98,8 +98,8 @@ Examples:
 .. image:: images/accommodation_double_room.*
 
 As result of deployment the set of agents is produced. For networking testing this set contains
-agents in ``master`` and ``slave`` roles. Master agents are controlled by ``shaker`` tool and execute commands.
-Slaves are used as back-ends and do not receive any commands directly.
+agents in ``primary`` and ``minion`` roles. Primary agents are controlled by ``shaker`` tool and execute commands.
+Minions are used as back-ends and do not receive any commands directly.
 
 \*If a flavor is chosen, which has aggregate_instance_extra_specs metadata set to match a host aggregate, Shaker will only use matching computes for compute_nodes calculations.
 If no aggregate_instance_extra_specs is set on a flavor Shaker will use all computes by default.
@@ -141,7 +141,7 @@ iperf3, iperf, iperf_graph:
     * ``interval`` - seconds between periodic bandwidth reports, defaults to `1 s`
     * ``bandwidth`` - for UDP, bandwidth to send at in bits/sec, defaults to `1 Mbit/s`
     * ``threads`` - number of parallel client threads to run
-    * ``host`` - the address of destination host to run the tool against, defaults to IP address of slave agent
+    * ``host`` - the address of destination host to run the tool against, defaults to IP address of minion agent
     * ``datagram_size`` - the size of UDP datagrams
     * ``mss`` - set TCP maximum segment size
 
@@ -150,14 +150,14 @@ flent:
     * ``time`` - time in seconds to transmit for, defaults to `60`
     * ``interval`` - seconds between periodic bandwidth reports, defaults to `1`
     * ``method`` - which flent scenario to use, see https://github.com/tohojo/flent/tree/master/flent/tests for the whole list, defaults to `tcp_download`
-    * ``host`` - the address of destination host to run the tool against, defaults to IP address of slave agent
+    * ``host`` - the address of destination host to run the tool against, defaults to IP address of minion agent
 
 
 netperf:
 ~~~~~~~~
     * ``time`` - time in seconds to transmit for, defaults to `60`
     * ``method`` - one of built-in test names, see http://linux.die.net/man/1/netperf for the whole list, defaults to `TCP_STREAM`
-    * ``host`` - the address of destination host to run the tool against, defaults to IP address of slave agent
+    * ``host`` - the address of destination host to run the tool against, defaults to IP address of minion agent
 
 shell:
 ~~~~~~

@@ -107,7 +107,7 @@ resources:
             "$SERVER_ENDPOINT": { get_param: server_endpoint }
             "$AGENT_ID": {{ agent.id }}
 
-{% if agent.mode == 'master' %}
+{% if agent.mode == 'primary' %}
   {{ agent.id }}_port:
     type: OS::Neutron::Port
     properties:
@@ -138,7 +138,7 @@ outputs:
 {% for agent in agents.values() %}
   {{ agent.id }}_instance_name:
     value: { get_attr: [ {{ agent.id }}, instance_name ] }
-{% if agent.mode == 'master' %}
+{% if agent.mode == 'primary' %}
   {{ agent.id }}_ip:
     value: { get_attr: [ {{ agent.id }}, networks, { get_attr: [north_private_net, name] }, 0 ] }
 {% else %}

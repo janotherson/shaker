@@ -4,7 +4,7 @@ OpenStack L3 North-South
 ************************
 
 This scenario launches pairs of VMs on different compute nodes. VMs are in the
-different networks connected via different routers, master accesses slave by
+different networks connected via different routers, primary accesses minion by
 floating ip
 
 **Scenario**:
@@ -17,7 +17,7 @@ floating ip
       - single_room
       template: l3_north_south.hot
     description: This scenario launches pairs of VMs on different compute nodes. VMs are
-      in the different networks connected via different routers, master accesses slave
+      in the different networks connected via different routers, primary accesses minion
       by floating ip
     execution:
       progression: quadratic

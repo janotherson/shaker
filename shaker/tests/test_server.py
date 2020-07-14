@@ -27,22 +27,22 @@ class TestServer(testtools.TestCase):
 
     def test_extend_agents(self):
         agents_map = {
-            'UU1D_master_0': {
-                'id': 'UU1D_master_0',
-                'mode': 'master',
+            'UU1D_primary_0': {
+                'id': 'UU1D_primary_0',
+                'mode': 'primary',
                 'node': 'uno',
-                'slave_id': 'UU1D_slave_0'},
-            'UU1D_slave_0': {
-                'id': 'UU1D_slave_0',
-                'master_id': 'UU1D_master_0',
-                'mode': 'slave',
+                'minion_id': 'UU1D_minion_0'},
+            'UU1D_minion_0': {
+                'id': 'UU1D_minion_0',
+                'primary_id': 'UU1D_primary_0',
+                'mode': 'minion',
                 'node': 'dos'},
         }
         agents = server._extend_agents(agents_map)
-        self.assertDictContainsSubset(agents['UU1D_master_0']['slave'],
-                                      agents['UU1D_slave_0'])
-        self.assertDictContainsSubset(agents['UU1D_slave_0']['master'],
-                                      agents['UU1D_master_0'])
+        self.assertDictContainsSubset(agents['UU1D_primary_0']['minion'],
+                                      agents['UU1D_minion_0'])
+        self.assertDictContainsSubset(agents['UU1D_minion_0']['primary'],
+                                      agents['UU1D_primary_0'])
 
     def test_pick_agents_full(self):
         agents = {}
@@ -54,18 +54,18 @@ class TestServer(testtools.TestCase):
                   for arr in server._pick_agents(agents, None)]
         self.assertEqual([set(range(10))], picked)
 
-    def test_pick_agents_full_filter_slaves(self):
+    def test_pick_agents_full_filter_minions(self):
         agents = {}
         for i in range(10):
-            agents['master_%s' % i] = {
-                'id': 'master_%s' % i, 'mode': 'master', 'node': 'uno',
+            agents['primary_%s' % i] = {
+                'id': 'primary_%s' % i, 'mode': 'primary', 'node': 'uno',
             }
-            agents['slave_%s' % i] = {
-                'id': 'slave_%s' % i, 'mode': 'slave', 'node': 'uno',
+            agents['minion_%s' % i] = {
+                'id': 'minion_%s' % i, 'mode': 'minion', 'node': 'uno',
             }
         picked = [set(a['id'] for a in arr)
                   for arr in server._pick_agents(agents, None)]
-        self.assertEqual([set('master_%s' % i for i in range(10))],
+        self.assertEqual([set('primary_%s' % i for i in range(10))],
                          picked)
 
     def test_pick_agents_linear(self):

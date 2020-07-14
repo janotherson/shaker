@@ -2,7 +2,7 @@ heat_template_version: 2013-05-23
 
 description:
   This Heat template creates a pair of networks plugged into the same router.
-  Master instances and slave instances are connected into different networks.
+  Primary instances and minion instances are connected into different networks.
 
 parameters:
   image:
@@ -100,7 +100,7 @@ resources:
             "$SERVER_ENDPOINT": { get_param: server_endpoint }
             "$AGENT_ID": {{ agent.id }}
 
-{% if agent.mode == 'master' %}
+{% if agent.mode == 'primary' %}
   {{ agent.id }}_port:
     type: OS::Neutron::Port
     properties:
@@ -124,7 +124,7 @@ outputs:
 {% for agent in agents.values() %}
   {{ agent.id }}_instance_name:
     value: { get_attr: [ {{ agent.id }}, instance_name ] }
-{% if agent.mode == 'master' %}
+{% if agent.mode == 'primary' %}
   {{ agent.id }}_ip:
     value: { get_attr: [ {{ agent.id }}, networks, { get_attr: [east_private_net, name] }, 0 ] }
 {% else %}

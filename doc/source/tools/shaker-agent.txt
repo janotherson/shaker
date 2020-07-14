@@ -1,9 +1,12 @@
-usage: shaker-agent [-h] [--agent-id AGENT_ID] [--config-dir DIR]
-                    [--config-file PATH] [--debug] [--log-config-append PATH]
-                    [--log-date-format DATE_FORMAT] [--log-dir LOG_DIR]
-                    [--log-file PATH] [--nodebug] [--nouse-journal]
-                    [--nouse-json] [--nouse-syslog] [--nowatch-log-file]
-                    [--polling-interval POLLING_INTERVAL]
+usage: shaker-agent [-h] [--agent-id AGENT_ID]
+                    [--agent-socket-conn-retries AGENT_SOCKET_CONN_RETRIES]
+                    [--agent-socket-recv-timeout AGENT_SOCKET_RECV_TIMEOUT]
+                    [--agent-socket-send-timeout AGENT_SOCKET_SEND_TIMEOUT]
+                    [--config-dir DIR] [--config-file PATH] [--debug]
+                    [--log-config-append PATH] [--log-date-format DATE_FORMAT]
+                    [--log-dir LOG_DIR] [--log-file PATH] [--nodebug]
+                    [--nouse-journal] [--nouse-json] [--nouse-syslog]
+                    [--nowatch-log-file] [--polling-interval POLLING_INTERVAL]
                     [--server-endpoint SERVER_ENDPOINT]
                     [--syslog-log-facility SYSLOG_LOG_FACILITY]
                     [--use-journal] [--use-json] [--use-syslog]
@@ -12,6 +15,16 @@ usage: shaker-agent [-h] [--agent-id AGENT_ID] [--config-dir DIR]
 optional arguments:
   -h, --help            show this help message and exit
   --agent-id AGENT_ID   Agent unique id, defaults to MAC of primary interface.
+  --agent-socket-conn-retries AGENT_SOCKET_CONN_RETRIES
+                        Prior to exiting, the number of reconnects the Agent
+                        will attempt with the server upon socket operation
+                        errors.
+  --agent-socket-recv-timeout AGENT_SOCKET_RECV_TIMEOUT
+                        The amount of time the socket will wait for a response
+                        from a sent message, in milliseconds.
+  --agent-socket-send-timeout AGENT_SOCKET_SEND_TIMEOUT
+                        The amount of time the socket will wait until a sent
+                        message is accepted, in milliseconds.
   --config-dir DIR      Path to a config directory to pull `*.conf` files
                         from. This file set is sorted, so as to provide a
                         predictable parse order if individual options are

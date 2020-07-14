@@ -19,7 +19,7 @@ from shaker.engine.executors import flent
 
 
 IP = '10.0.0.10'
-AGENT = {'slave': {'ip': IP}}
+AGENT = {'minion': {'ip': IP}}
 
 
 class TestFlentExecutor(testtools.TestCase):

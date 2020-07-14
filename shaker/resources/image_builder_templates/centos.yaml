@@ -40,7 +40,7 @@ resources:
       router_id: { get_resource: router }
       subnet_id: { get_resource: private_subnet }
 
-  master_image:
+  primary_image:
     type: OS::Glance::Image
     properties:
       container_format: bare
@@ -50,21 +50,21 @@ resources:
       min_ram: 512
       name: shaker_image_build_template
 
-  master_image_server_port:
+  primary_image_server_port:
     type: OS::Neutron::Port
     properties:
       network_id: { get_resource: private_net }
       fixed_ips:
         - subnet_id: { get_resource: private_subnet }
 
-  master_image_server:
+  primary_image_server:
     type: OS::Nova::Server
     properties:
       name: shaker_image_builder_server
-      image: { get_resource: master_image }
+      image: { get_resource: primary_image }
       flavor: { get_param: flavor }
       networks:
-        - port: { get_resource: master_image_server_port }
+        - port: { get_resource: primary_image_server_port }
       user_data_format: RAW
       user_data: |
         #!/bin/bash
@@ -121,4 +121,4 @@ resources:
 
 outputs:
   server_info:
-    value: { get_attr: [ master_image_server, show ] }
+    value: { get_attr: [ primary_image_server, show ] }

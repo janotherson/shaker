@@ -40,18 +40,18 @@ def prepare_for_cross_az(compute_nodes, zones):
         LOG.warn('cross_az is specified, but len(zones) is not 2')
         return compute_nodes
 
-    masters = []
-    slaves = []
+    primary_list = []
+    minions = []
     for node in compute_nodes:
         if node['zone'] == zones[0]:
-            masters.append(node)
+            primary_list.append(node)
         else:
-            slaves.append(node)
+            minions.append(node)
 
     res = []
-    for i in range(min(len(masters), len(slaves))):
-        res.append(masters[i])
-        res.append(slaves[i])
+    for i in range(min(len(primary_list), len(minions))):
+        res.append(primary_list[i])
+        res.append(minions[i])
 
     return res
 
@@ -103,28 +103,28 @@ def generate_agents(compute_nodes, accommodation, unique):
 
     for i in range(iterations):
         if 'pair' in accommodation:
-            master_id = '%s_master_%s' % (unique, i)
-            slave_id = '%s_slave_%s' % (unique, i)
-            master = dict(id=master_id, mode='master', slave_id=slave_id)
-            slave = dict(id=slave_id, mode='slave', master_id=master_id)
+            primary_id = '%s_primary_%s' % (unique, i)
+            minion_id = '%s_minion_%s' % (unique, i)
+            primary = dict(id=primary_id, mode='primary', minion_id=minion_id)
+            minion = dict(id=minion_id, mode='minion', primary_id=primary_id)
 
             if 'single_room' in accommodation:
-                master_formula = lambda x: i * 2
-                slave_formula = lambda x: i * 2 + 1
+                primary_formula = lambda x: i * 2
+                minion_formula = lambda x: i * 2 + 1
             elif 'double_room' in accommodation:
-                master_formula = lambda x: i
-                slave_formula = lambda x: i
+                primary_formula = lambda x: i
+                minion_formula = lambda x: i
             else:  # mixed_room
-                master_formula = lambda x: i
-                slave_formula = lambda x: i + 1
+                primary_formula = lambda x: i
+                minion_formula = lambda x: i + 1
 
-            m = node_formula(master_formula(i))
-            master['node'], master['zone'] = m['host'], m['zone']
-            s = node_formula(slave_formula(i))
-            slave['node'], slave['zone'] = s['host'], s['zone']
+            m = node_formula(primary_formula(i))
+            primary['node'], primary['zone'] = m['host'], m['zone']
+            s = node_formula(minion_formula(i))
+            minion['node'], minion['zone'] = s['host'], s['zone']
 
-            agents[master['id']] = master
-            agents[slave['id']] = slave
+            agents[primary['id']] = primary
+            agents[minion['id']] = minion
         else:
             if 'single_room' in accommodation:
                 agent_id = '%s_agent_%s' % (unique, i)
@@ -174,7 +174,7 @@ def filter_agents(agents, stack_outputs, override=None):
         agent.update(stack_values)
 
         # workaround of Nova bug 1422686
-        if agent.get('mode') == 'slave' and not agent.get('ip'):
+        if agent.get('mode') == 'minion' and not agent.get('ip'):
             LOG.info('IP address is missing in agent: %s', agent)
             continue
 
@@ -184,10 +184,10 @@ def filter_agents(agents, stack_outputs, override=None):
     result = {}
     for agent in deployed_agents.values():
         if (agent.get('mode') == 'alone' or
-                (agent.get('mode') == 'master' and
-                 agent.get('slave_id') in deployed_agents) or
-                (agent.get('mode') == 'slave' and
-                 agent.get('master_id') in deployed_agents)):
+                (agent.get('mode') == 'primary' and
+                 agent.get('minion_id') in deployed_agents) or
+                (agent.get('mode') == 'minion' and
+                 agent.get('primary_id') in deployed_agents)):
             result[agent['id']] = agent
 
     return result
@@ -214,12 +214,12 @@ def distribute_agents(agents, get_host_fn):
     if buckets['alone']:
         result = dict((a['id'], a) for a in buckets['alone'])
     else:
-        for master, slave in zip(buckets['master'], buckets['slave']):
-            master['slave_id'] = slave['id']
-            slave['master_id'] = master['id']
+        for primary, minion in zip(buckets['primary'], buckets['minion']):
+            primary['minion_id'] = minion['id']
+            minion['primary_id'] = primary['id']
 
-            result[master['id']] = master
-            result[slave['id']] = slave
+            result[primary['id']] = primary
+            result[minion['id']] = minion
 
     return result
 

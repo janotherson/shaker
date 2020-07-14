@@ -20,7 +20,7 @@ class NetperfExecutor(base.BaseExecutor):
     def get_command(self):
         cmd = base.CommandLine('netperf')
         cmd.add('-H', self.test_definition.get('host') or
-                self.agent['slave']['ip'])
+                self.agent['minion']['ip'])
         cmd.add('-l', self.get_expected_duration())
         cmd.add('-t', self.test_definition.get('method') or 'TCP_STREAM')
         return cmd.make()

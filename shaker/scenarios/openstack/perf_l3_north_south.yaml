@@ -3,7 +3,7 @@ title: OpenStack L3 North-South Performance
 description:
   In this scenario Shaker launches 1 pair of instances on different compute
   nodes. Instances are in different networks connected to different routers,
-  master accesses slave by floating ip. The traffic goes from one network
+  primary accesses minion by floating ip. The traffic goes from one network
   via external network to the other network.
 
 deployment:

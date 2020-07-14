@@ -38,8 +38,8 @@ Scenario execution involves the following steps:
     6. Shaker starts tests one by one in order they are listed in the scenario.
        Test definition is converted into the actual command that will be
        executed by agent. Shaker schedules the command to be started at the same
-       time on all agents. For networking testing only agents in ``master`` role
-       are involved. Slave agents are used as back-end for corresponding commands
+       time on all agents. For networking testing only agents in ``primary`` role
+       are involved. Minion agents are used as back-end for corresponding commands
        (i.e. they run iperf in server mode).
 
     7. Agents send their results to the server. Once all replies are received
