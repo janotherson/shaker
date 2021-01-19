@@ -1,4 +1,5 @@
-usage: shaker-all-in-one [-h] [--agent-join-timeout AGENT_JOIN_TIMEOUT]
+usage: shaker-all-in-one [-h] [--agent-dir AGENT_DIR]
+                         [--agent-join-timeout AGENT_JOIN_TIMEOUT]
                          [--agent-loss-timeout AGENT_LOSS_TIMEOUT]
                          [--artifacts-dir ARTIFACTS_DIR] [--book BOOK]
                          [--cleanup] [--cleanup-on-exit] [--config-dir DIR]
@@ -45,6 +46,10 @@ usage: shaker-all-in-one [-h] [--agent-join-timeout AGENT_JOIN_TIMEOUT]
 
 optional arguments:
   -h, --help            show this help message and exit
+  --agent-dir AGENT_DIR
+                        If specified, directs Shaker to write execution script
+                        for the shell class in agent(s) instance defined
+                        directory. Defaults to /tmp directory.
   --agent-join-timeout AGENT_JOIN_TIMEOUT
                         Timeout to treat agent as join failed in seconds,
                         defaults to env[SHAKER_AGENT_JOIN_TIMEOUT] (time

@@ -1,4 +1,4 @@
-usage: shaker-agent [-h] [--agent-id AGENT_ID]
+usage: shaker-agent [-h] [--agent-dir AGENT_DIR] [--agent-id AGENT_ID]
                     [--agent-socket-conn-retries AGENT_SOCKET_CONN_RETRIES]
                     [--agent-socket-recv-timeout AGENT_SOCKET_RECV_TIMEOUT]
                     [--agent-socket-send-timeout AGENT_SOCKET_SEND_TIMEOUT]
@@ -14,6 +14,10 @@ usage: shaker-agent [-h] [--agent-id AGENT_ID]
 
 optional arguments:
   -h, --help            show this help message and exit
+  --agent-dir AGENT_DIR
+                        If specified, directs Shaker to write execution script
+                        for the shell class in agent(s) instance defined
+                        directory. Defaults to /tmp directory.
   --agent-id AGENT_ID   Agent unique id, defaults to MAC of primary interface.
   --agent-socket-conn-retries AGENT_SOCKET_CONN_RETRIES
                         Prior to exiting, the number of reconnects the Agent

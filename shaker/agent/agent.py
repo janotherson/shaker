@@ -61,13 +61,21 @@ def send_reply(socket, agent_id, result):
 def run_command(command):
     command_stdout, command_stderr = None, None
     start = time.time()
+    agent_dir = cfg.CONF.agent_dir
+
+    if agent_dir:
+        utils.mkdir_tree(agent_dir)
 
     if command['type'] == 'program':
         command_stdout, command_stderr = processutils.execute(
             *shlex.split(command['data']), check_exit_code=False)
 
     elif command['type'] == 'script':
-        file_name = tempfile.mktemp()
+        if 'agent_dir' in cfg.CONF:
+            file_name = tempfile.mktemp(dir="%s" % agent_dir)
+        else:
+            file_name = tempfile.mktemp()
+
         with open(file_name, mode='w') as fd:
             fd.write(command['data'])
         LOG.debug('Stored script into %s', file_name)

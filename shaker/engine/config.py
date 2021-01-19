@@ -67,6 +67,10 @@ def generate_output_name():
 
 
 COMMON_OPTS = [
+    cfg.StrOpt('agent-dir', default=utils.env('SHAKER_AGENT_DIR'),
+               help='If specified, directs Shaker to write execution script '
+                    'for the shell class in agent(s) instance defined '
+                    'directory. Defaults to /tmp directory.'),
     cfg.Opt('server-endpoint',
             default=utils.env('SHAKER_SERVER_ENDPOINT'),
             required=True,
