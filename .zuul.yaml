@@ -24,6 +24,7 @@
 - job:
     name: shaker-integration-py27
     parent: openstack-tox
+    nodeset: ubuntu-bionic
     description: |
       Run integration tests under Python 2.7
 
@@ -34,6 +35,7 @@
 - job:
     name: shaker-integration-py36
     parent: openstack-tox
+    nodeset: ubuntu-bionic
     description: |
       Run integration tests under Python 3.6
 

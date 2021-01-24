@@ -21,7 +21,8 @@ oslo.serialization>=1.10.0;python_version>='3.6' # Apache-2.0
 oslo.utils>=3.18.0,<4.0.0;python_version<'3.6' # Apache-2.0
 oslo.utils>=3.18.0;python_version>='3.6' # Apache-2.0
 pygal
-pykwalify
+pykwalify<1.8.0;python_version<'3.6'
+pykwalify;python_version>='3.6'
 python-glanceclient>=2.5.0,<=3.0.0;python_version<'3.6' # Apache-2.0
 python-glanceclient>=2.5.0;python_version>='3.6' # Apache-2.0
 python-neutronclient>=5.1.0,<8.0.0;python_version<'3.6' # Apache-2.0
