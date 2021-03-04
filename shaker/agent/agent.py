@@ -61,10 +61,6 @@ def send_reply(socket, agent_id, result):
 def run_command(command):
     command_stdout, command_stderr = None, None
     start = time.time()
-    agent_dir = cfg.CONF.agent_dir
-
-    if agent_dir:
-        utils.mkdir_tree(agent_dir)
 
     if command['type'] == 'program':
         command_stdout, command_stderr = processutils.execute(
@@ -72,7 +68,8 @@ def run_command(command):
 
     elif command['type'] == 'script':
         if 'agent_dir' in cfg.CONF:
-            file_name = tempfile.mktemp(dir="%s" % agent_dir)
+            utils.mkdir_tree(cfg.CONF.agent_dir)
+            file_name = tempfile.mktemp(dir="%s" % cfg.CONF.agent_dir)
         else:
             file_name = tempfile.mktemp()
 
