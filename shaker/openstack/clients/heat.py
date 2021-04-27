@@ -14,23 +14,33 @@
 # limitations under the License.
 
 import sys
+import tempfile
 import time
 
 from heatclient import exc
+from heatclient.common import template_utils
 from oslo_log import log as logging
-from timeout_decorator import timeout
-from timeout_decorator import TimeoutError
+from timeout_decorator import TimeoutError, timeout
 
 LOG = logging.getLogger(__name__)
 
 
 def create_stack(heat_client, stack_name, template, parameters,
                  environment=None):
+    # process_template_path expects a path to a file object, create
+    # a temporary named file and write the contents of template to it
+    with tempfile.NamedTemporaryFile(mode='w+t') as fd:
+        fd.write(template)
+        fd.seek(0)
+        files, processed_template = template_utils.process_template_path(
+            fd.name)
+
     stack_params = {
         'stack_name': stack_name,
-        'template': template,
+        'template': processed_template,
         'parameters': parameters,
         'environment': environment,
+        'files': files,
     }
 
     stack = heat_client.stacks.create(**stack_params)['stack']
