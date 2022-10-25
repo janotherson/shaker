@@ -6,12 +6,12 @@ description:
   networks connected to different routers, primary accesses minion by
   floating ip. The traffic goes from one network via external network to the
   other network. The primary and minion instances are in different availability
-  zones. The scenario is used to test throughput between `nova` and `vcenter`
+  zones. The scenario is used to test throughput between openstack
   zones.
 
 deployment:
   template: l3_north_south.hot
-  accommodation: [pair, single_room, zones: [nova, vcenter], cross_az]
+  accommodation: [pair, single_room, cross_az]
 
 execution:
   progression: quadratic
