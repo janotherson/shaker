@@ -1,7 +1,5 @@
 dib-python
+cloud-init
 install-types
 package-installs
 source-repositories
-pip-and-virtualenv
-
-
