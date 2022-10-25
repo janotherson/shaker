@@ -58,7 +58,10 @@ class FlentExecutor(base.BaseExecutor):
         for i in range(len(data['x_values'])):
             line = [data['x_values'][i]]
             for el in columns:
-                line.append(data['results'][el][i])
+                if (data['results'][el][i]) is None:
+                    line.append(0)
+                else:
+                    line.append(data['results'][el][i])
             samples.append(line)
 
         result['meta'] = meta
