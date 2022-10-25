@@ -28,6 +28,7 @@ resources:
 
   bandwidth_limit_rule:
     type: OS::Neutron::QoSBandwidthLimitRule
+    depends_on: [qos_policy]
     properties:
       policy: { get_resource: qos_policy }
       max_kbps: 10000
@@ -35,12 +36,14 @@ resources:
 
   private_net:
     type: OS::Neutron::Net
+    depends_on: [qos_policy]
     properties:
       name: {{ unique }}_net
       qos_policy: { get_resource: qos_policy }
 
   private_subnet:
     type: OS::Neutron::Subnet
+    depends_on: [private_net]
     properties:
       network_id: { get_resource: private_net }
       cidr: 10.0.0.0/16
@@ -54,6 +57,7 @@ resources:
 
   router_interface:
     type: OS::Neutron::RouterInterface
+    depends_on: [router,private_subnet]
     properties:
       router_id: { get_resource: router }
       subnet_id: { get_resource: private_subnet }
@@ -96,6 +100,7 @@ resources:
 
   {{ agent.id }}_port:
     type: OS::Neutron::Port
+    depends_on: [router_interface,server_security_group]
     properties:
       network_id: { get_resource: private_net }
       fixed_ips:

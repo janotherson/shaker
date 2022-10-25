@@ -30,6 +30,7 @@ resources:
 
   north_private_subnet:
     type: OS::Neutron::Subnet
+    depends_on: [north_private_net]
     properties:
       network_id: { get_resource: north_private_net }
       cidr: 10.1.0.0/16
@@ -43,6 +44,7 @@ resources:
 
   router_interface:
     type: OS::Neutron::RouterInterface
+    depends_on: [north_router,north_private_subnet]
     properties:
       router_id: { get_resource: north_router }
       subnet_id: { get_resource: north_private_subnet }
@@ -54,6 +56,7 @@ resources:
 
   south_private_subnet:
     type: OS::Neutron::Subnet
+    depends_on: [south_private_net]
     properties:
       network_id: { get_resource: south_private_net }
       cidr: 10.2.0.0/16
@@ -67,6 +70,7 @@ resources:
 
   router_interface_2:
     type: OS::Neutron::RouterInterface
+    depends_on: [south_router,south_private_subnet]
     properties:
       router_id: { get_resource: south_router }
       subnet_id: { get_resource: south_private_subnet }
@@ -110,6 +114,7 @@ resources:
 {% if agent.mode == 'primary' %}
   {{ agent.id }}_port:
     type: OS::Neutron::Port
+    depends_on: [router_interface,server_security_group]
     properties:
       network_id: { get_resource: north_private_net }
       fixed_ips:
@@ -118,6 +123,7 @@ resources:
 {% else %}
   {{ agent.id }}_port:
     type: OS::Neutron::Port
+    depends_on: [router_interface_2,server_security_group]
     properties:
       network_id: { get_resource: south_private_net }
       fixed_ips:
@@ -126,7 +132,7 @@ resources:
 
   {{ agent.id }}_floating_ip:
     type: OS::Neutron::FloatingIP
-    depends_on: router_interface_2
+    depends_on: [router_interface_2,{{ agent.id }}_port]
     properties:
       floating_network: { get_param: external_net }
       port_id: { get_resource: {{ agent.id }}_port }
