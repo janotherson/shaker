@@ -195,6 +195,10 @@ SERVER_AGENT_OPTS = [
                     'defaults to env[SHAKER_AGENT_JOIN_TIMEOUT] (time '
                     'between stack deployment and start of scenario '
                     'execution).'),
+    cfg.BoolOpt('agent-ipv6',
+                default=False,
+                help='Use IPv6 address to perform the tests with the '
+                     'deployed agents'),
 ]
 
 SCENARIO_OPTS = [

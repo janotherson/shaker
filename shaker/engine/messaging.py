@@ -34,7 +34,9 @@ class MessageQueue(object):
 
         context = zmq.Context()
         self.socket = context.socket(zmq.REP)
-        self.socket.bind("tcp://*:%s" % port)
+        # Set socket option IPv6
+        self.socket.setsockopt(zmq.IPV6, True)
+        self.socket.bind("tcp://:::%s" % port)
         LOG.info('Listening on *:%s', port)
 
         heartbeat = multiprocessing.Process(

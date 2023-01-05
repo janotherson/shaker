@@ -153,7 +153,13 @@ def _get_stack_values(stack_outputs, vm_name, params):
     for param in params:
         o = stack_outputs.get(vm_name + '_' + param)
         if o:
-            result[param] = o
+            if cfg.CONF.agent_ipv6:
+                for ip in o:
+                    if ip.find(":") != -1:
+                        result[param] = ip
+                        break
+            else:
+                result[param] = o
     return result
 
 

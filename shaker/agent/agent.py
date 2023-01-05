@@ -97,6 +97,7 @@ def sleep(seconds):
 def get_socket(context, endpoint):
     socket = context.socket(zmq.REQ)
     socket.setsockopt(zmq.LINGER, 0)
+    socket.setsockopt(zmq.IPV6, True)
     if 'agent_socket_recv_timeout' in cfg.CONF:
         socket.setsockopt(zmq.RCVTIMEO, cfg.CONF.agent_socket_recv_timeout)
     if 'agent_socket_send_timeout' in cfg.CONF:
