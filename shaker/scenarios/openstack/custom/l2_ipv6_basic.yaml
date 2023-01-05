@@ -1,0 +1,35 @@
+title: OpenStack L2 Dense IPv6
+
+description:
+  In this scenario Shaker launches several pairs of instances on a single
+  compute node. Instances are plugged into the same tenant network.
+  The traffic goes within the tenant network (L2 domain IPv6).
+
+deployment:
+  template: l2_ipv6.hot
+  env_file: shaker_common.env
+  accommodation: [pair, single_room, cross_az, density: 1, compute_nodes: 2]
+
+execution:
+  tests:
+  -
+    title: TCP
+    class: iperf3
+    time: 60
+    sla:
+    - "[type == 'agent'] >> (stats.bandwidth.avg > 45)"
+  -
+    title: UDP
+    class: iperf3
+    time: 60
+    udp: on
+    bandwidth: 5000M
+    sla:
+    - "[type == 'agent'] >> (stats.loss.avg < 25)"
+  -
+    title: Ping
+    class: flent
+    method: ping
+    time: 10
+    sla:
+    - "[type == 'agent'] >> (stats.ping_icmp.avg < 300.0)"
