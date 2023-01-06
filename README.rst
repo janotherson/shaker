@@ -58,12 +58,11 @@ Run in Python Environment - IPv6 extension
 The support to use the subnet IPv6 address for tests was introduced with the
 new agent engine parameter: --agent-ipv6
 
-We could use the ipv6 subnet address without the need for this flag in the
-agent engine in an ipv6 only scenario. However, the metadata is not supported
-in IPv6 only when we the SDN backend use the OVN driver. In this case, we need
-to use a dual stack mode (multiple subnets), and it is not guaranteed that the
-ipv6 subnet will always be in the same order [subnet index required by HEAT
-template].
+We could use the ipv6 subnet address without need this flag in an ipv6 only
+scenario. However, the metadata is not supported in IPv6 only when the SDN
+backend use the OVN driver. In this case, we need to use a dual stack mode
+(multiple subnets), and it is not guaranteed that the ipv6 subnet will always
+be in the same order [subnet index required by HEAT template].
 
 HEAT output reference
 
