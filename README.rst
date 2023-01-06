@@ -124,9 +124,11 @@ OpenStack L2 Cross-AZ
 ^^^^^^^^^^^^^^^^^^^^^
 
 * IPv4 only
+
   To use this scenario specify parameter ``--scenario openstack/custom/l2_ipv4``.
 
 * Dual-Stack - IPv4 + IPv6
+
   To use this scenario specify parameter ``--scenario openstack/custom/l2_ipv4``.
 
 
@@ -134,9 +136,11 @@ OpenStack L3 East-West Cross-AZ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * IPv4 only
+
   To use this scenario specify parameter ``--scenario openstack/custom/l3_east_west_ipv4``.
 
 * Dual-Stack - IPv4 + IPv6
+
   To use this scenario specify parameter ``--scenario openstack/custom/l3_east_west_ipv6``.
 
 
@@ -144,14 +148,18 @@ OpenStack L3 North-South Cross-AZ
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * IPv4 only
+
   - Normal case: VM primary: private_ipv4 and VM minion: FIP address
-    To use this scenario specify parameter ``--scenario openstack/custom/l3_north_south_ipv4``.
+
+    * To use this scenario specify parameter ``--scenario openstack/custom/l3_north_south_ipv4``.
 
   - FIP to FIP case: VM primary: FIP and VM minion: FIP address
-    To use this scenario specify parameter ``--scenario openstack/custom/l3_north_south_ipv4_fip_to_fip``.
+
+    * To use this scenario specify parameter ``--scenario openstack/custom/l3_north_south_ipv4_fip_to_fip``.
 
 
 * Dual-Stack - IPv4 + IPv6
+
   To use this scenario specify parameter ``--scenario openstack/custom/l3_north_south_ipv6``.
 
 
