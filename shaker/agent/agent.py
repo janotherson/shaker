@@ -67,8 +67,8 @@ def run_command(command):
             *shlex.split(command['data']), check_exit_code=False)
 
     elif command['type'] == 'script':
-        if 'agent_dir' in cfg.CONF:
-            utils.mkdir_tree(cfg.CONF.agent_dir)
+        if 'agent_dir' in cfg.CONF and type(cfg.CONF.agent_dir) == 'str':
+            utils.mkdir_tree(cfg.CONF.agent_dir) 
             file_name = tempfile.mktemp(dir="%s" % cfg.CONF.agent_dir)
         else:
             file_name = tempfile.mktemp()
@@ -97,9 +97,9 @@ def sleep(seconds):
 def get_socket(context, endpoint):
     socket = context.socket(zmq.REQ)
     socket.setsockopt(zmq.LINGER, 0)
-    if 'agent_socket_recv_timeout' in cfg.CONF:
+    if 'agent_socket_recv_timeout' in cfg.CONF and type(cfg.CONF.agent_socket_recv_timeout) == 'int':
         socket.setsockopt(zmq.RCVTIMEO, cfg.CONF.agent_socket_recv_timeout)
-    if 'agent_socket_send_timeout' in cfg.CONF:
+    if 'agent_socket_send_timeout' in cfg.CONF and type(cfg.CONF.agent_socket_send_timeout) == 'int':
         socket.setsockopt(zmq.SNDTIMEO, cfg.CONF.agent_socket_send_timeout)
     socket.connect('tcp://%s' % endpoint)
     return socket
