@@ -1,9 +1,9 @@
 heat_template_version: 2013-05-23
 
 description: >
-  This Heat template creates a new Neutron network plugged into a router
-  connected to the external network, and boots an instance in that network.
-  The instance has floating IP.
+  This Heat template creates a new Neutron network plus a north_router to the
+  external network. The template also assigns floating IP addresses to each
+  instance so they are routable from the external network.
 
 parameters:
   image:
@@ -30,7 +30,7 @@ resources:
 
   north_private_subnet:
     type: OS::Neutron::Subnet
-    depends_on: [north_private_net]
+    depends_on: north_private_net
     properties:
       network_id: { get_resource: north_private_net }
       cidr: 10.1.0.0/16
@@ -44,10 +44,51 @@ resources:
 
   router_interface:
     type: OS::Neutron::RouterInterface
-    depends_on: [north_router,north_private_subnet]
+    depends_on: [north_private_subnet,north_router]
     properties:
       router_id: { get_resource: north_router }
       subnet_id: { get_resource: north_private_subnet }
+
+  south_private_net:
+    type: OS::Neutron::Net
+    properties:
+      name: {{ unique }}_net_south
+
+  south_private_subnet:
+    type: OS::Neutron::Subnet
+    depends_on: south_private_net
+    properties:
+      network_id: { get_resource: south_private_net }
+      cidr: 10.2.0.0/16
+      dns_nameservers: { get_param: dns_nameservers }
+
+  south_router:
+    type: OS::Neutron::Router
+    properties:
+      external_gateway_info:
+        network: { get_param: external_net }
+
+  router_interface_2:
+    type: OS::Neutron::RouterInterface
+    depends_on: [south_private_subnet,south_router]
+    properties:
+      router_id: { get_resource: south_router }
+      subnet_id: { get_resource: south_private_subnet }
+
+  server_security_group:
+    type: OS::Neutron::SecurityGroup
+    properties:
+      rules: [
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: tcp,
+        port_range_min: 1,
+        port_range_max: 65535},
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: udp,
+        port_range_min: 1,
+        port_range_max: 65535},
+        {remote_ip_prefix: 0.0.0.0/0,
+        protocol: icmp}]
 
 {% for agent in agents.values() %}
 
@@ -65,25 +106,37 @@ resources:
         str_replace:
           template: |
             #!/bin/sh
-            screen -dmS shaker-agent-screen shaker-agent --server-endpoint=$SERVER_ENDPOINT --agent-id=$AGENT_ID --agent-socket-conn-retries 1000 --agent-socket-recv-timeout 100 --agent-socket-send-timeout 100 --agent-dir=/tmp --polling-interval 10
+            screen -dmS shaker-agent-screen shaker-agent --server-endpoint=$SERVER_ENDPOINT --agent-id=$AGENT_ID --agent-socket-conn-retries 10000 --agent-socket-recv-timeout 300 --agent-socket-send-timeout 300 --agent-dir=/tmp --polling-interval 10
           params:
             "$SERVER_ENDPOINT": { get_param: server_endpoint }
             "$AGENT_ID": {{ agent.id }}
 
+{% if agent.mode == 'primary' %}
   {{ agent.id }}_port:
     type: OS::Neutron::Port
-    depends_on: [router_interface]
+    depends_on: [router_interface,server_security_group]
     properties:
       network_id: { get_resource: north_private_net }
       fixed_ips:
         - subnet_id: { get_resource: north_private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
+{% else %}
+  {{ agent.id }}_port:
+    type: OS::Neutron::Port
+    depends_on: [router_interface_2,server_security_group]
+    properties:
+      network_id: { get_resource: south_private_net }
+      fixed_ips:
+        - subnet_id: { get_resource: south_private_subnet }
+      security_groups: [{ get_resource: server_security_group }]
 
   {{ agent.id }}_floating_ip:
     type: OS::Neutron::FloatingIP
-    depends_on: [router_interface,{{ agent.id }}_port]
+    depends_on: router_interface_2
     properties:
       floating_network: { get_param: external_net }
       port_id: { get_resource: {{ agent.id }}_port }
+{% endif %}
 
 {% endfor %}
 
@@ -91,6 +144,11 @@ outputs:
 {% for agent in agents.values() %}
   {{ agent.id }}_instance_name:
     value: { get_attr: [ {{ agent.id }}, instance_name ] }
+{% if agent.mode == 'primary' %}
   {{ agent.id }}_ip:
     value: { get_attr: [ {{ agent.id }}, networks, { get_attr: [north_private_net, name] }, 0 ] }
+{% else %}
+  {{ agent.id }}_ip:
+    value: { get_attr: [ {{ agent.id }}_floating_ip, floating_ip_address ] }
+{% endif %}
 {% endfor %}

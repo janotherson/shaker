@@ -3,5 +3,7 @@ screen:
 libzmq-dev:
 libssl-dev:
 libffi-dev:
-python-dev:
+python3-dev:
+python3-pip:
+python3-virtualenv:
 wget:

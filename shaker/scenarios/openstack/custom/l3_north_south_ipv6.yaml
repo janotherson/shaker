@@ -1,0 +1,36 @@
+title: OpenStack L3 North-South IPv6
+
+description:
+  In this scenario Shaker launches pairs of instances.
+  Instances are connected to different tenant networks connected to one
+  router. The traffic goes from one network to the other (L3 IPv6).
+
+deployment:
+  template: l3_north_south_ipv6.hot
+  env_file: shaker_common.env
+  accommodation: [pair, single_room, cross_az, density: 1, compute_nodes: 2]
+
+execution:
+  tests:
+  -
+    title: TCP
+    class: iperf3
+    time: 3600
+    bandwidth: 100M
+    sla:
+    - "[type == 'agent'] >> (stats.bandwidth.avg > 45)"
+  -
+    title: UDP
+    class: iperf3
+    time: 3600
+    udp: on
+    bandwidth: 100M
+    sla:
+    - "[type == 'agent'] >> (stats.loss.avg < 25)"
+  -
+    title: Ping
+    class: flent
+    method: ping
+    time: 10
+    sla:
+    - "[type == 'agent'] >> (stats.ping_icmp.avg < 300.0)"

@@ -68,7 +68,7 @@ resources:
       user_data: |
         #!/bin/bash
         sudo apt update
-        sudo apt -y install iperf iperf3 netperf python-dev libzmq-dev build-essential python-pip
+        sudo apt -y install iperf iperf3 netperf python3-dev libzmq-dev build-essential python3-pip
         sudo pip install flent pyshaker
         shaker-agent -h || (echo "[critical] Failed to run shaker-agent. Check if it is installed in the image"; sleep 20)
         cat<<'EOF' >> /etc/systemd/system/iperf.service

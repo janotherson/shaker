@@ -98,11 +98,13 @@ class TrafficAggregator(base.BaseAggregator):
                 stats[k]['avg'] = avg(avg_v[k])
                 node_chart.append(['Avg %s' % title] + avg_v[k])
             if max_v[k]:
-                stats[k]['max'] = max(max_v[k])
-                node_chart.append(['Max %s' % title] + max_v[k])
+                if isinstance(max_v[k], type(None)):
+                    stats[k]['max'] = max(max_v[k])
+                    node_chart.append(['Max %s' % title] + max_v[k])
             if min_v[k]:
-                stats[k]['min'] = min(min_v[k])
-                node_chart.append(['Min %s' % title] + min_v[k])
+                if isinstance(min_v[k], type(None)):
+                    stats[k]['min'] = min(list(map(int,min_v[k])))
+                    node_chart.append(['Min %s' % title] + min_v[k])
 
         return {
             'stats': stats,

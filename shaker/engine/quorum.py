@@ -27,6 +27,10 @@ LOG = logging.getLogger(__name__)
 HEARTBEAT_AGENT = '__heartbeat'
 CLEANER_AGENT = '__cleaner'
 
+EXTRA_TIME = 300  # by default adds 300 secs
+
+class QuorumException(Exception):
+    pass
 
 class BaseOperation(object):
     def get_agent_join_timeout(self):
@@ -87,7 +91,7 @@ class ExecuteOperation(BaseOperation):
                      start_at=start_at,
                      command=self.executors[agent_id].get_command(),
                      expected_duration=(self.executors[agent_id].
-                                        get_expected_duration()))
+                                        get_expected_duration()+EXTRA_TIME))
         return reply
 
     def process_reply(self, agent_id, message):
@@ -241,7 +245,7 @@ def make_quorum(agent_ids, message_queue, polling_interval,
     failed = dict((agent_id, rec['status'])
                   for agent_id, rec in result.items() if rec['status'] != 'ok')
     if failed:
-        raise Exception('Agents failed to join: %s' % failed)
+        raise QuorumException('Agents failed to join: %s' % failed)
 
     return quorum
 

@@ -29,6 +29,7 @@ resources:
 
   north_private_subnet:
     type: OS::Neutron::Subnet
+    depends_on: [north_private_net]
     properties:
       network_id: { get_resource: north_private_net }
       cidr: 10.1.0.0/16
@@ -42,6 +43,7 @@ resources:
 
   router_interface:
     type: OS::Neutron::RouterInterface
+    depends_on: [north_router,north_private_subnet]
     properties:
       router_id: { get_resource: north_router }
       subnet_id: { get_resource: north_private_subnet }
@@ -62,13 +64,14 @@ resources:
         str_replace:
           template: |
             #!/bin/sh
-            screen -dmS shaker-agent-screen shaker-agent --server-endpoint=$SERVER_ENDPOINT --agent-id=$AGENT_ID
+            screen -dmS shaker-agent-screen shaker-agent --server-endpoint=$SERVER_ENDPOINT --agent-id=$AGENT_ID  --agent-socket-conn-retries 1000 --agent-socket-recv-timeout 100 --agent-socket-send-timeout 100 --agent-dir=/tmp --polling-interval 10
           params:
             "$SERVER_ENDPOINT": { get_param: server_endpoint }
             "$AGENT_ID": {{ agent.id }}
 
   {{ agent.id }}_port:
     type: OS::Neutron::Port
+    depends_on: [router_interface]
     properties:
       network_id: { get_resource: north_private_net }
       fixed_ips:

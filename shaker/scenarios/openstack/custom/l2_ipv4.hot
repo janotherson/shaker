@@ -23,33 +23,38 @@ parameters:
     description: DNS nameservers for the subnet
 
 resources:
-  private_net:
+
+{% for agent in agents.values() %}
+
+{% if agent.mode == 'primary' %}
+
+  {{ agent.id }}_private_net:
     type: OS::Neutron::Net
     properties:
       name: {{ unique }}_net
 
-  private_subnet:
+  {{ agent.id }}_private_subnet:
     type: OS::Neutron::Subnet
-    depends_on: [private_net]
+    depends_on: {{ agent.id }}_private_net
     properties:
-      network_id: { get_resource: private_net }
+      network_id: { get_resource: {{ agent.id }}_private_net }
       cidr: 10.0.0.0/16
       dns_nameservers: { get_param: dns_nameservers }
 
-  router:
+  {{ agent.id }}_router:
     type: OS::Neutron::Router
     properties:
       external_gateway_info:
         network: { get_param: external_net }
 
-  router_interface:
+  {{ agent.id }}_router_interface:
     type: OS::Neutron::RouterInterface
-    depends_on: [router,private_subnet]
+    depends_on: [{{ agent.id }}_private_subnet,{{ agent.id }}_router]
     properties:
-      router_id: { get_resource: router }
-      subnet_id: { get_resource: private_subnet }
+      router_id: { get_resource: {{ agent.id }}_router }
+      subnet_id: { get_resource: {{ agent.id }}_private_subnet }
 
-  server_security_group:
+  {{ agent.id }}_server_security_group:
     type: OS::Neutron::SecurityGroup
     properties:
       rules: [
@@ -64,10 +69,11 @@ resources:
         {remote_ip_prefix: 0.0.0.0/0,
         protocol: icmp}]
 
-{% for agent in agents.values() %}
+{% endif %}      
 
   {{ agent.id }}:
     type: OS::Nova::Server
+    depends_on: [{{ agent.id }}_port]
     properties:
       name: {{ agent.id }}
       image: { get_param: image }
@@ -80,19 +86,35 @@ resources:
         str_replace:
           template: |
             #!/bin/sh
-            screen -dmS shaker-agent-screen shaker-agent --server-endpoint=$SERVER_ENDPOINT --agent-id=$AGENT_ID --agent-socket-conn-retries 1000 --agent-socket-recv-timeout 100 --agent-socket-send-timeout 100 --agent-dir=/tmp --polling-interval 10
+            screen -dmS shaker-agent-screen shaker-agent --server-endpoint=$SERVER_ENDPOINT --agent-id=$AGENT_ID --agent-socket-conn-retries 10000 --agent-socket-recv-timeout 300 --agent-socket-send-timeout 300 --agent-dir=/tmp --polling-interval 10
           params:
             "$SERVER_ENDPOINT": { get_param: server_endpoint }
             "$AGENT_ID": {{ agent.id }}
 
+{% if agent.mode == 'primary' %}
+
   {{ agent.id }}_port:
     type: OS::Neutron::Port
-    depends_on: [router_interface,server_security_group]
+    depends_on: [{{ agent.id }}_router_interface,{{ agent.id }}_server_security_group]
     properties:
-      network_id: { get_resource: private_net }
+      network_id: { get_resource: {{ agent.id }}_private_net }
       fixed_ips:
-        - subnet_id: { get_resource: private_subnet }
-      security_groups: [{ get_resource: server_security_group }]
+        - subnet_id: { get_resource: {{ agent.id }}_private_subnet }
+      security_groups: [{ get_resource: {{ agent.id }}_server_security_group }]
+
+{% else %}
+
+  {{ agent.id }}_port:
+    type: OS::Neutron::Port
+    depends_on: [{{ agent.primary_id }}_router_interface,{{ agent.primary_id }}_server_security_group]
+    properties:
+      network_id: { get_resource: {{ agent.primary_id }}_private_net }
+      fixed_ips:
+        - subnet_id: { get_resource: {{ agent.primary_id }}_private_subnet }
+      security_groups: [{ get_resource: {{ agent.primary_id }}_server_security_group }]
+
+{% endif %}
+
 
 {% endfor %}
 
@@ -101,5 +123,9 @@ outputs:
   {{ agent.id }}_instance_name:
     value: { get_attr: [ {{ agent.id }}, instance_name ] }
   {{ agent.id }}_ip:
-    value: { get_attr: [ {{ agent.id }}, networks, { get_attr: [private_net, name] }, 0 ] }
+{% if agent.mode == 'primary' %}
+    value: { get_attr: [ {{ agent.id }}, networks, { get_attr: [{{ agent.id }}_private_net, name] }, 0 ] }
+{% else %}
+    value: { get_attr: [ {{ agent.id }}, networks, { get_attr: [{{ agent.primary_id }}_private_net, name] }, 0 ] }
+{% endif %}
 {% endfor %}

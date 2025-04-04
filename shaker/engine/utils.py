@@ -151,7 +151,11 @@ def read_yaml(raw):
 
 def split_address(address):
     try:
-        host, port = address.split(':')
+        if address.find("[", 0, 2) == -1:
+            host, port = address.split(':')
+        else:
+            host_v6, port = address.rsplit(':', 1)
+            host = host_v6.strip('[]')
     except ValueError:
         raise ValueError('Invalid address: %s, "host:port" expected', address)
     return host, port

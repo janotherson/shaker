@@ -29,6 +29,7 @@ resources:
 
   east_private_subnet:
     type: OS::Neutron::Subnet
+    depends_on: [east_private_net]
     properties:
       network_id: { get_resource: east_private_net }
       cidr: 10.1.0.0/16
@@ -42,6 +43,7 @@ resources:
 
   router_interface:
     type: OS::Neutron::RouterInterface
+    depends_on: [router,east_private_subnet]
     properties:
       router_id: { get_resource: router }
       subnet_id: { get_resource: east_private_subnet }
@@ -53,6 +55,7 @@ resources:
 
   west_private_subnet:
     type: OS::Neutron::Subnet
+    depends_on: [west_private_net]
     properties:
       network_id: { get_resource: west_private_net }
       cidr: 10.2.0.0/16
@@ -60,6 +63,7 @@ resources:
 
   router_interface_2:
     type: OS::Neutron::RouterInterface
+    depends_on: [router,west_private_subnet]
     properties:
       router_id: { get_resource: router }
       subnet_id: { get_resource: west_private_subnet }
@@ -95,7 +99,7 @@ resources:
         str_replace:
           template: |
             #!/bin/sh
-            screen -dmS shaker-agent-screen shaker-agent --server-endpoint=$SERVER_ENDPOINT --agent-id=$AGENT_ID --use-journal
+            screen -dmS shaker-agent-screen shaker-agent --server-endpoint=$SERVER_ENDPOINT --agent-id=$AGENT_ID --use-journal --agent-socket-conn-retries 1000 --agent-socket-recv-timeout 100 --agent-socket-send-timeout 100 --agent-dir=/tmp --polling-interval 10
           params:
             "$SERVER_ENDPOINT": { get_param: server_endpoint }
             "$AGENT_ID": {{ agent.id }}
@@ -103,6 +107,7 @@ resources:
 {% if agent.mode == 'primary' %}
   {{ agent.id }}_port:
     type: OS::Neutron::Port
+    depends_on: [router_interface,server_security_group]
     properties:
       network_id: { get_resource: east_private_net }
       fixed_ips:
@@ -111,6 +116,7 @@ resources:
 {% else %}
   {{ agent.id }}_port:
     type: OS::Neutron::Port
+    depends_on: [router_interface_2,server_security_group]
     properties:
       network_id: { get_resource: west_private_net }
       fixed_ips:

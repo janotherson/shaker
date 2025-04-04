@@ -200,6 +200,12 @@ def play_scenario(message_queue, scenario):
 
         execute(output, quorum, scenario['execution'], agents, matrix)
 
+    except quorum_pkg.QuorumException as e:
+        error_msg = 'Quorum - Error while executing scenario: %s' % e
+        LOG.exception(e)
+        record = dict(id=utils.make_record_id(), status='error',
+            stderr=error_msg)
+        output['records'][record['id']] = record
     except BaseException as e:
         if isinstance(e, KeyboardInterrupt):
             LOG.info('Caught SIGINT. Terminating')
