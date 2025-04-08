@@ -13,7 +13,7 @@ RUN echo "deb http://httpredir.debian.org/debian jessie non-free" >> /etc/apt/so
 ADD . /opt/shaker/
 RUN pip install -r /opt/shaker/requirements.txt flent
 WORKDIR /opt/shaker/
-RUN python setup.py install
+RUN python -m pip install .
 
 VOLUME /artifacts
 
