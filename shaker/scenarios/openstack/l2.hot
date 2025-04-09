@@ -79,8 +79,34 @@ resources:
       user_data:
         str_replace:
           template: |
-            #!/bin/sh
-            screen -dmS shaker-agent-screen shaker-agent --server-endpoint=$SERVER_ENDPOINT --agent-id=$AGENT_ID --use-journal --agent-socket-conn-retries 1000 --agent-socket-recv-timeout 100 --agent-socket-send-timeout 100 --agent-dir=/tmp --polling-interval 10
+            #!/bin/bash
+            # Populate environment variables via the pyShaker HEAT template.
+            echo 'SERVER_ENDPOINT=$SERVER_ENDPOINT' > /etc/default/shaker-agent
+            echo 'AGENT_ID=$AGENT_ID' >> /etc/default/shaker-agent
+
+            # shaker-agent unit service. May be uncomment if does not delivered through diskimage-builder.
+            # cat<<'EOF' >> /etc/systemd/system/shaker-agent.service
+            # [Unit]
+            # Description=Shaker Agent
+            # After=network-online.target cloud-init.target
+            # Wants=network-online.target
+            # ConditionPathExists=/etc/default/shaker-agent
+            # DefaultDependencies=no
+            # Before=shutdown.target
+            # Conflicts=shutdown.target
+
+            # [Service]
+            # EnvironmentFile=/etc/default/shaker-agent
+            # ExecStart=/usr/bin/shaker-agent --server-endpoint=${SERVER_ENDPOINT} --agent-id=${AGENT_ID} --agent-socket-conn-retries 1000 --agent-socket-recv-timeout 100 --agent-socket-send-timeout 100 --agent-dir=/tmp --polling-interval 10 --use-journal --debug
+            # Restart=on-failure
+            # RestartSec=5s
+            # TimeoutStopSec=5
+
+            # [Install]
+            # WantedBy=multi-user.target
+            # EOF
+
+            # systemctl enable shaker-agent.service
           params:
             "$SERVER_ENDPOINT": { get_param: server_endpoint }
             "$AGENT_ID": {{ agent.id }}
