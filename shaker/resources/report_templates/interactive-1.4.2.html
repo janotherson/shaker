@@ -3,38 +3,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
 <head profile="http://gmpg.org/xfn/11">
   <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>Shaker | The distributed data-plane testing tool for OpenStack</title>
 
   <!-- LIBS -->
+
   <script type="application/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+          src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script type="application/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+          src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
   <script type="application/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js"></script>
+          src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.js"></script>
   <script type="text/javascript"
-          src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+          src="https://cdn.datatables.net/1.10.2/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+          src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/3.0.1/handlebars.min.js"></script>
   <script type="application/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+          src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/3.2.7/js-yaml.min.js"></script>
   <script type="application/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+          src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
   <script type="application/javascript"
-          src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+          src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.js"></script>
 
   <!-- STYLES -->
+
   <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.4.0/simplex/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css"
-        href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
-  <link rel="stylesheet" type="text/css"
-        href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.css">
-  <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic&subset=latin,cyrillic">
+        href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/simplex/bootstrap.min.css">
+  <link rel=stylesheet type=text/css
+        href="https://cdn.datatables.net/1.10.2/css/jquery.dataTables.min.css">
+  <link rel=stylesheet type=text/css
+        href="https://cdnjs.cloudflare.com/ajax/libs/c3/0.4.10/c3.css">
+  <link rel='stylesheet' type='text/css'
+        href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic&subset=latin,cyrillic'>
 
   <script type="application/javascript">
     var report = [[[ report | json]]];
@@ -167,25 +167,25 @@
 
       function showScenarioSource(contentArea, scenario) {
         contentArea.append(scenario_source_template(
-            {data: jsyaml.dump(scenario)}));
+            {data: jsyaml.safeDump(scenario)}));
       }
 
       function showTestSpecification(contentArea, test) {
         contentArea.append(test_specification_template(
-            {data: jsyaml.dump(test)}
+            {data: jsyaml.safeDump(test)}
         ))
       }
 
       function showAgentRecord(contentArea, record) {
         var chart_id = "chart_" + Math.round(Math.random() * 10000);
         var ext_options = {
-          command_yaml: jsyaml.dump(record["command"]),
+          command_yaml: jsyaml.safeDump(record["command"]),
           chart_id: chart_id};
         if (record["stats"]) {
-          ext_options["stats_yaml"] = jsyaml.dump(record["stats"]);
+          ext_options["stats_yaml"] = jsyaml.safeDump(record["stats"]);
         }
         if ((record["start"]) && (record["finish"])) {
-          ext_options["time_info"] = jsyaml.dump({
+          ext_options["time_info"] = jsyaml.safeDump({
             "start": new Date(record["start"] * 1000).toISOString(),
             "finish": new Date(record["finish"] * 1000).toISOString()
           });
@@ -235,7 +235,7 @@
         var node_chart_id = "node_chart_" + Math.round(Math.random() * 10000);
         var ext_options = { chart_id: chart_id, node_chart_id: node_chart_id };
         if (record["stats"]) {
-          ext_options["stats_yaml"] = jsyaml.dump(record["stats"]);
+          ext_options["stats_yaml"] = jsyaml.safeDump(record["stats"]);
         }
         console.log(record);
         contentArea.append(concurrency_summary_template(
@@ -262,7 +262,7 @@
         var chart_id = "chart_" + Math.round(Math.random() * 10000);
         var ext_options = { chart_id: chart_id };
         if (record["stats"]) {
-          ext_options["stats_yaml"] = jsyaml.dump(record["stats"]);
+          ext_options["stats_yaml"] = jsyaml.safeDump(record["stats"]);
         }
         contentArea.append(test_summary_template(
             {record: $.extend({}, record, ext_options)}
